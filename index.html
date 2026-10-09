@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NASHO Health Data Management</title>
+
+  <style>
+    :root {
+      --navy: #073b4c;
+      --teal: #087f8c;
+      --green: #15966a;
+      --bg: #f2f6fa;
+      --line: #dce5ec;
+      --text: #182b3a;
+      --muted: #647789;
+      --red: #c63d4f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    .brand {
+      color: white;
+      background: linear-gradient(120deg, var(--navy), var(--teal));
+      padding: 24px;
+    }
+
+    .brand h1 { margin: 0 0 7px; font-size: 22px; }
+    .brand p { margin: 0; opacity: .88; font-size: 13px; }
+
+    .auth-wrap {
+      width: min(440px, calc(100% - 28px));
+      margin: 38px auto;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      padding: 20px;
+      margin-bottom: 17px;
+      box-shadow: 0 3px 12px #14324a0a;
+    }
+
+    h2, h3 { margin-top: 0; }
+    h2 { font-size: 21px; }
+    h3 { font-size: 16px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 12px 0 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #cbd7e1;
+      border-radius: 8px;
+      padding: 11px;
+      background: white;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    textarea { min-height: 80px; resize: vertical; }
+
+    .btn {
+      background: var(--teal);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      font-weight: 700;
+    }
+
+    .btn:hover { filter: brightness(.94); }
+    .btn:disabled { opacity: .55; cursor: wait; }
+    .btn.secondary { background: #e8f0f5; color: var(--navy); }
+    .btn.danger { background: var(--red); }
+    .btn.success { background: var(--green); }
+    .full { width: 100%; margin-top: 16px; }
+
+    .appbar {
+      background: white;
+      padding: 13px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .appbar strong { color: var(--navy); }
+    .user-info { color: var(--muted); font-size: 13px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 225px minmax(0, 1fr);
+      min-height: calc(100vh - 58px);
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 15px;
+    }
+
+    .nav-btn {
+      display: block;
+      text-align: left;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #395367;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      background: #e7f5f5;
+      color: var(--teal);
+      font-weight: bold;
+    }
+
+    main { padding: 24px; min-width: 0; }
+    .section-title { margin-bottom: 19px; }
+    .section-title h2 { margin-bottom: 5px; }
+    .section-title p { color: var(--muted); margin: 0; font-size: 14px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-number { font-size: 28px; font-weight: bold; color: var(--teal); }
+    .stat-label { color: var(--muted); font-size: 13px; margin-top: 7px; }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .table-wrap { overflow-x: auto; width: 100%; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 650px;
+    }
+
+    th, td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: #f6f9fb; color: #4d6476; }
+    .badge {
+      display: inline-block;
+      border-radius: 20px;
+      padding: 4px 8px;
+      background: #e6f5ed;
+      color: #14774b;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .badge.off { background: #fde9e9; color: #a72d3a; }
+    .message { margin: 12px 0; font-size: 13px; white-space: pre-wrap; }
+    .message.error { color: var(--red); }
+    .message.ok { color: var(--green); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }
+    .toolbar > div { flex: 1; min-width: 145px; }
+    .empty { text-align: center; padding: 22px; color: var(--muted); }
+    .notice { background: #fff7df; padding: 12px; border-radius: 8px; font-size: 13px; }
+
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .nav-btn { white-space: nowrap; width: auto; }
+      main { padding: 14px; }
+      .stats { grid-template-columns: 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      .brand { padding: 19px; }
+      .brand h1 { font-size: 19px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="brand">
+    <h1>🏥 NASHO HEALTH DATA MANAGEMENT SYSTEM</h1>
+    <p>Health Information • Data Quality • Reporting • Analysis</p>
+  </header>
+
+  <section id="auth" class="auth-wrap">
+    <div class="card">
+      <h2 id="authTitle">Sign in</h2>
+      <p class="muted" id="authDescription">
+        Sign in using your authorized username and password.
+      </p>
+
+      <div id="loginForm">
+        <label for="loginUsername">Username</label>
+        <input id="loginUsername" autocomplete="username" required>
+
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password"
+               autocomplete="current-password" required>
+
+        <button class="btn full" onclick="login()">Sign in</button>
+      </div>
+
+      <div id="setupForm" class="hidden">
+        <div class="notice">
+          No administrator account exists yet. Create the first administrator.
+          Keep these credentials private.
+        </div>
+
+        <label for="firstName">Full name</label>
+        <input id="firstName" autocomplete="name">
+
+        <label for="firstUsername">Administrator username</label>
+        <input id="firstUsername" autocomplete="username">
+
+        <label for="firstEmail">Email</label>
+        <input id="firstEmail" type="email" autocomplete="email">
+
+        <label for="firstPassword">Password</label>
+        <input id="firstPassword" type="password"
+               autocomplete="new-password">
+
+        <p class="muted">
+          Use at least 10 characters, including letters and numbers.
+        </p>
+
+        <button class="btn full" onclick="createAdmin()">
+          Create first administrator
+        </button>
+      </div>
+
+      <div id="authMessage" class="message"></div>
+    </div>
+    <p class="muted" style="text-align:center">
+      Authorized personnel only.
+    </p>
+  </section>
+
+  <section id="application" class="hidden">
+    <div class="appbar">
+      <strong>NASHO HC | Health Information</strong>
+      <div>
+        <span id="userInfo" class="user-info"></span>
+        <button class="btn secondary" onclick="logout()">Sign out</button>
+      </div>
+    </div>
+
+    <div class="layout">
+      <nav id="navigation" class="sidebar"></nav>
+      <main>
+        <div id="appMessage" class="message"></div>
+        <div id="view"></div>
+      </main>
+    </div>
+  </section>
+
+<script>
+  'use strict';
+
+  let token = '';
+  let currentUser = null;
+  let currentView = 'dashboard';
+  let centers = [];
+  let users = [];
+  let records = [];
+
+  const $ = id => document.getElementById(id);
+
+  function showMessage(id, text, type) {
+    const el = $(id);
+    el.textContent = text || '';
+    el.className = 'message ' + (type || '');
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;',
+      '"': '&quot;', "'": '&#39;'
+    })[ch]);
+  }
+
+  function callApi(action, payload = {}) {
+    return new Promise((resolve, reject) => {
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler(err => reject(
+          new Error(err && err.message ? err.message : 'Server request failed.')
+        ))
+        .api(action, payload, token);
+    });
+  }
+
+  async function initialize() {
+    try {
+      const r = await callApi('status');
+      if (!r.success) throw new Error(r.message || 'Cannot initialize.');
+
+      if (!r.initialized) {
+        showMessage('authMessage',
+          'Database not configured. Run setupDatabase() in Apps Script first.',
+          'error');
+        return;
+      }
+
+      if (!r.hasUsers) {
+        $('loginForm').classList.add('hidden');
+        $('setupForm').classList.remove('hidden');
+        $('authTitle').textContent = 'First-time setup';
+        $('authDescription').textContent =
+          'Create the initial administrator account.';
+      }
+    } catch (e) {
+      showMessage('authMessage', e.message, 'error');
+    }
+  }
+
+  async function createAdmin() {
+    const payload = {
+      fullName: $('firstName').value,
+      username: $('firstUsername').value,
+      email: $('firstEmail').value,
+      password: $('firstPassword').value
+    };
+
+    try {
+      const r = await callApi('createFirstAdmin', payload);
+      if (!r.success) throw new Error(r.message);
+      showMessage('authMessage', r.message, 'ok');
+      $('setupForm').classList.add('hidden');
+      $('loginForm').classList.remove('hidden');
+      $('loginUsername').value = payload.username;
+      $('firstPassword').value = '';
+    } catch (e) {
+      showMessage('authMessage', e.message, 'error');
+    }
+  }
+
+  async function login() {
+    showMessage('authMessage', 'Signing in...', '');
+
+    try {
+      const r = await callApi('login', {
+        username: $('loginUsername').value,
+        password: $('loginPassword').value
+      });
+
+      if (!r.success) throw new Error(r.message || 'Login failed.');
+
+      token = r.token;
+      currentUser = r.user;
+
+      $('loginPassword').value = '';
+      $('auth').classList.add('hidden');
+      $('application').classList.remove('hidden');
+      $('userInfo').textContent =
+        currentUser.FullName + ' • ' + currentUser.Role;
+
+      buildNavigation();
+      await openView('dashboard');
+    } catch (e) {
+      showMessage('authMessage', e.message, 'error');
+    }
+  }
+
+  async function logout() {
+    try { await callApi('logout'); } catch (_) {}
+    token = '';
+    currentUser = null;
+    centers = [];
+    users = [];
+    records = [];
+    $('application').classList.add('hidden');
+    $('auth').classList.remove('hidden');
+    showMessage('authMessage', 'You have signed out.', 'ok');
+  }
+
+  function buildNavigation() {
+    const items = [
+      ['dashboard', 'Dashboard'],
+      ['data', 'Health Data'],
+      ['reports', 'Reports & Analysis'],
+      ['password', 'Change Password']
+    ];
+
+    if (currentUser.Role === 'Admin') {
+      items.splice(1, 0,
+        ['centers', 'Health Centers'],
+        ['users', 'User Management'],
+        ['audit', 'Audit Log']
+      );
+    }
+
+    $('navigation').innerHTML = items.map(item =>
+      `<button class="nav-btn" data-view="${item[0]}"
+        onclick="openView('${item[0]}')">${item[1]}</button>`
+    ).join('');
+  }
+
+  async function openView(name) {
+    currentView = name;
+
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === name);
+    });
+
+    showMessage('appMessage', '', '');
+
+    try {
+      if (name === 'dashboard') await renderDashboard();
+      else if (name === 'centers') await renderCenters();
+      else if (name === 'users') await renderUsers();
+      else if (name === 'data') await renderData();
+      else if (name === 'reports') await renderReports();
+      else if (name === 'audit') await renderAudit();
+      else if (name === 'password') renderPassword();
+    } catch (e) {
+      if (/Session expired|Account inactive/i.test(e.message)) {
+        await logout();
+      } else {
+        showMessage('appMessage', e.message, 'error');
+      }
+    }
+  }
+
+  function titleBlock(title, subtitle) {
+    return `<div class="section-title"><h2>${escapeHtml(title)}</h2>
+      <p>${escapeHtml(subtitle || '')}</p></div>`;
+  }
+
+  async function renderDashboard() {
+    const r = await callApi('dashboard');
+    if (!r.success) throw new Error(r.message);
+
+    $('view').innerHTML = titleBlock(
+      'Dashboard', 'Overview of your authorized health information.'
+    ) + `
+      <div class="stats">
+        <div class="card">
+          <div class="stat-number">${r.totalRecords}</div>
+          <div class="stat-label">Health data records</div>
+        </div>
+        <div class="card">
+          <div class="stat-number">${r.totalCenters}</div>
+          <div class="stat-label">Health centers</div>
+        </div>
+        <div class="card">
+          <div class="stat-number">${escapeHtml(currentUser.Role)}</div>
+          <div class="stat-label">Your role</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Account and assignment</h3>
+        <p><b>Name:</b> ${escapeHtml(currentUser.FullName)}</p>
+        <p><b>Username:</b> ${escapeHtml(currentUser.Username)}</p>
+        <p><b>Assigned center:</b> ${escapeHtml(r.centerName)}</p>
+      </div>
+      <div class="card">
+        <h3>Recent records</h3>
+        ${recordsTable(r.recentRecords || [], false)}
+      </div>
+    `;
+  }
+
+  function recordsTable(data, canEdit) {
+    if (!data.length) return '<div class="empty">No records found.</div>';
+
+    const isAdmin = currentUser.Role === 'Admin';
+
+    return `<div class="table-wrap"><table>
+      <thead><tr>
+        <th>Date</th><th>Health center</th><th>Indicator</th>
+        <th>Value</th><th>Notes</th>${canEdit ? '<th>Action</th>' : ''}
+      </tr></thead><tbody>
+      ${data.map(r => `<tr>
+        <td>${escapeHtml(r.Date)}</td>
+        <td>${escapeHtml(centerLabel(r.HealthCenterID))}</td>
+        <td>${escapeHtml(r.Indicator)}</td>
+        <td>${escapeHtml(r.Value)}</td>
+        <td>${escapeHtml(r.Notes)}</td>
+        ${canEdit ? `<td>
+          <button class="btn secondary"
+            onclick="editRecord('${escapeHtml(r.RecordID)}')">Edit</button>
+          <button class="btn danger"
+            onclick="removeRecord('${escapeHtml(r.RecordID)}')">Delete</button>
+        </td>` : ''}
+      </tr>`).join('')}
+      </tbody></table></div>`;
+  }
+
+  function centerLabel(id) {
+    const c = centers.find(x => String(x.HealthCenterID) === String(id));
+    return c ? c.HealthCenterName : (id || '—');
+  }
+
+  async function loadCenters() {
+    if (currentUser.Role === 'Admin') {
+      const r = await callApi('listCenters');
+      if (!r.success) throw new Error(r.message);
+      centers = r.centers || [];
+    } else {
+      centers = [];
+    }
+  }
+
+  async function renderCenters() {
+    await loadCenters();
+
+    $('view').innerHTML = titleBlock(
+      'Health Centers', 'Create and maintain health center assignments.'
+    ) + `
+      <div class="card">
+        <h3 id="centerFormTitle">Add health center</h3>
+        <input id="centerId" type="hidden">
+        <label>Health center name</label>
+        <input id="centerName" placeholder="e.g. Nasho Health Center">
+        <div class="grid2">
+          <div><label>District</label>
+          <input id="centerDistrict" placeholder="Kirehe"></div>
+          <div><label>Sector</label>
+          <input id="centerSector" placeholder="Nasho"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn" onclick="saveCenter()">Save center</button>
+          <button class="btn secondary" onclick="clearCenterForm()">Clear</button>
+        </div>
+      </div>
+      <div class="card"><h3>Registered centers</h3>
+        <div class="table-wrap"><table>
+        <thead><tr><th>Name</th><th>District</th><th>Sector</th>
+        <th>Status</th><th>Action</th></tr></thead>
+        <tbody>${centers.map(c => `<tr>
+          <td>${escapeHtml(c.HealthCenterName)}</td>
+          <td>${escapeHtml(c.District)}</td>
+          <td>${escapeHtml(c.Sector)}</td>
+          <td>${escapeHtml(c.Status)}</td>
+          <td><button class="btn secondary"
+            onclick="editCenter('${escapeHtml(c.HealthCenterID)}')">Edit</button></td>
+        </tr>`).join('')}</tbody></table></div>
+      </div>`;
+  }
+
+  function clearCenterForm() {
+    ['centerId','centerName','centerDistrict','centerSector'].forEach(id => $(id).value = '');
+    $('centerFormTitle').textContent = 'Add health center';
+  }
+
+  function editCenter(id) {
+    const c = centers.find(x => String(x.HealthCenterID) === id);
+    if (!c) return;
+    $('centerId').value = c.HealthCenterID;
+    $('centerName').value = c.HealthCenterName;
+    $('centerDistrict').value = c.District;
+    $('centerSector').value = c.Sector;
+    $('centerFormTitle').textContent = 'Edit health center';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function saveCenter() {
+    const r = await callApi('saveCenter', {
+      id: $('centerId').value,
+      name: $('centerName').value,
+      district: $('centerDistrict').value,
+      sector: $('centerSector').value
+    });
+
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+    await renderCenters();
+  }
+
+  async function renderUsers() {
+    const r = await callApi('listUsers');
+    if (!r.success) throw new Error(r.message);
+    users = r.users || [];
+    centers = r.centers || [];
+
+    $('view').innerHTML = titleBlock(
+      'User Management', 'Create accounts and assign role and health center.'
+    ) + `
+      <div class="card">
+        <h3 id="userFormTitle">Add user</h3>
+        <input id="userId" type="hidden">
+        <div class="grid2">
+          <div><label>Full name</label><input id="userName"></div>
+          <div><label>Username (4–60 characters)</label><input id="userUsername"></div>
+          <div><label>Email</label><input id="userEmail" type="email"></div>
+          <div><label>Role</label>
+            <select id="userRole" onchange="toggleCenterField()">
+              <option>Data Manager</option>
+              <option>Viewer</option>
+              <option>Admin</option>
+            </select>
+          </div>
+        </div>
+        <div id="userCenterWrap">
+          <label>Assigned health center</label>
+          <select id="userCenter">
+            <option value="">Select health center</option>
+            ${centers.filter(c => c.Status === 'Active').map(c =>
+              `<option value="${escapeHtml(c.HealthCenterID)}">
+                ${escapeHtml(c.HealthCenterName)} — ${escapeHtml(c.District)}
+              </option>`).join('')}
+          </select>
+        </div>
+        <label id="userPasswordLabel">Initial password</label>
+        <input id="userPassword" type="password" autocomplete="new-password">
+        <p class="muted">At least 10 characters, including letters and numbers.
+          When editing, leave password blank to keep the current password.</p>
+        <div class="form-actions">
+          <button class="btn" onclick="saveUser()">Save user</button>
+          <button class="btn secondary" onclick="clearUserForm()">Clear</button>
+        </div>
+      </div>
+      <div class="card"><h3>Accounts</h3>
+        <div class="table-wrap"><table><thead><tr>
+          <th>Name</th><th>Username</th><th>Role</th><th>Center</th>
+          <th>Status</th><th>Actions</th>
+        </tr></thead><tbody>
+        ${users.map(u => `<tr>
+          <td>${escapeHtml(u.FullName)}</td>
+          <td>${escapeHtml(u.Username)}</td>
+          <td>${escapeHtml(u.Role)}</td>
+          <td>${escapeHtml(centerLabel(u.HealthCenterID))}</td>
+          <td><span class="badge ${u.Status !== 'Active' ? 'off' : ''}">
+            ${escapeHtml(u.Status)}</span></td>
+          <td>
+            <button class="btn secondary"
+              onclick="editUser('${escapeHtml(u.UserID)}')">Edit</button>
+            <button class="btn ${u.Status === 'Active' ? 'danger' : 'success'}"
+              onclick="changeUserStatus('${escapeHtml(u.UserID)}','${u.Status === 'Active' ? 'Inactive' : 'Active'}')">
+              ${u.Status === 'Active' ? 'Deactivate' : 'Activate'}
+            </button>
+            <button class="btn secondary"
+              onclick="adminResetPassword('${escapeHtml(u.UserID)}')">Reset password</button>
+          </td>
+        </tr>`).join('')}
+        </tbody></table></div>
+      </div>`;
+  }
+
+  function toggleCenterField() {
+    $('userCenterWrap').classList.toggle(
+      'hidden', $('userRole').value === 'Admin'
+    );
+  }
+
+  function clearUserForm() {
+    ['userId','userName','userUsername','userEmail','userPassword'].forEach(id => $(id).value = '');
+    $('userCenter').value = '';
+    $('userRole').value = 'Data Manager';
+    $('userFormTitle').textContent = 'Add user';
+    $('userPasswordLabel').textContent = 'Initial password';
+    toggleCenterField();
+  }
+
+  function editUser(id) {
+    const u = users.find(x => String(x.UserID) === id);
+    if (!u) return;
+    $('userId').value = u.UserID;
+    $('userName').value = u.FullName;
+    $('userUsername').value = u.Username;
+    $('userEmail').value = u.Email;
+    $('userRole').value = u.Role;
+    $('userCenter').value = u.HealthCenterID || '';
+    $('userPassword').value = '';
+    $('userPasswordLabel').textContent = 'New password (optional)';
+    $('userFormTitle').textContent = 'Edit user';
+    toggleCenterField();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function saveUser() {
+    const r = await callApi('saveUser', {
+      id: $('userId').value,
+      fullName: $('userName').value,
+      username: $('userUsername').value,
+      email: $('userEmail').value,
+      role: $('userRole').value,
+      healthCenterId: $('userCenter').value,
+      password: $('userPassword').value
+    });
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+    await renderUsers();
+  }
+
+  async function changeUserStatus(id, status) {
+    if (!confirm('Change this account status to ' + status + '?')) return;
+    const r = await callApi('setUserStatus', { id, status });
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+    await renderUsers();
+  }
+
+  async function adminResetPassword(id) {
+    const password = prompt('Enter a new temporary password (10+ characters, letters and numbers):');
+    if (password === null) return;
+    const r = await callApi('resetPassword', { id, password });
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+  }
+
+  async function renderData() {
+    await loadCenters();
+
+    const r = await callApi('listData');
+    if (!r.success) throw new Error(r.message);
+    records = r.records || [];
+
+    const isAdmin = currentUser.Role === 'Admin';
+    const centerOptions = centers.map(c =>
+      `<option value="${escapeHtml(c.HealthCenterID)}">
+        ${escapeHtml(c.HealthCenterName)}
+      </option>`).join('');
+
+    $('view').innerHTML = titleBlock(
+      'Health Data', 'Record, review and maintain health indicators.'
+    ) + `
+      <div class="card">
+        <h3 id="recordFormTitle">Add health data</h3>
+        <input id="recordId" type="hidden">
+        <div class="grid2">
+          <div><label>Reporting date</label>
+            <input id="recordDate" type="date" value="${new Date().toISOString().slice(0,10)}">
+          </div>
+          <div><label>Indicator</label>
+            <input id="recordIndicator" placeholder="e.g. OPD attendance">
+          </div>
+        </div>
+        ${isAdmin ? `<label>Health center</label>
+          <select id="recordCenter"><option value="">Select center</option>
+          ${centerOptions}</select>` : ''}
+        <label>Value</label>
+        <input id="recordValue" placeholder="Enter the reported value">
+        <label>Notes</label>
+        <textarea id="recordNotes" placeholder="Optional notes"></textarea>
+        <div class="form-actions">
+          <button class="btn" onclick="saveRecord()">Save record</button>
+          <button class="btn secondary" onclick="clearRecordForm()">Clear</button>
+          <button class="btn secondary" onclick="renderData()">Refresh</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Health data records</h3>
+        <div class="toolbar">
+          <div><label>Search indicator</label>
+            <input id="filterIndicator" placeholder="Search..."></div>
+          <div><label>From</label><input id="filterFrom" type="date"></div>
+          <div><label>To</label><input id="filterTo" type="date"></div>
+          <div><button class="btn" onclick="filterData()">Filter</button></div>
+        </div>
+        <div id="recordTable" style="margin-top:16px">
+          ${recordsTable(records, currentUser.Role !== 'Viewer')}
+        </div>
+      </div>`;
+  }
+
+  function clearRecordForm() {
+    ['recordId','recordIndicator','recordValue','recordNotes'].forEach(id => $(id).value = '');
+    $('recordDate').value = new Date().toISOString().slice(0,10);
+    if ($('recordCenter')) $('recordCenter').value = '';
+    $('recordFormTitle').textContent = 'Add health data';
+  }
+
+  function editRecord(id) {
+    const r = records.find(x => String(x.RecordID) === id);
+    if (!r) return;
+    $('recordId').value = r.RecordID;
+    $('recordDate').value = String(r.Date).slice(0,10);
+    $('recordIndicator').value = r.Indicator;
+    $('recordValue').value = r.Value;
+    $('recordNotes').value = r.Notes || '';
+    if ($('recordCenter')) $('recordCenter').value = r.HealthCenterID;
+    $('recordFormTitle').textContent = 'Edit health data';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function saveRecord() {
+    const payload = {
+      id: $('recordId').value,
+      date: $('recordDate').value,
+      indicator: $('recordIndicator').value,
+      value: $('recordValue').value,
+      notes: $('recordNotes').value
+    };
+    if ($('recordCenter')) payload.healthCenterId = $('recordCenter').value;
+
+    const r = await callApi('saveData', payload);
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+    await renderData();
+  }
+
+  async function removeRecord(id) {
+    if (!confirm('Delete this record? This action cannot be undone.')) return;
+    const r = await callApi('deleteData', { id });
+    if (!r.success) throw new Error(r.message);
+    showMessage('appMessage', r.message, 'ok');
+    await renderData();
+  }
+
+  async function filterData() {
+    const r = await callApi('listData', {
+      indicator: $('filterIndicator').value,
+      from: $('filterFrom').value,
+      to: $('filterTo').value
+    });
+    if (!r.success) throw new Error(r.message);
+    records = r.records || [];
+    $('recordTable').innerHTML =
+      recordsTable(records, currentUser.Role !== 'Viewer');
+  }
+
+  async function renderReports() {
+    await loadCenters();
+    const r = await callApi('report');
+    if (!r.success) throw new Error(r.message);
+
+    $('view').innerHTML = titleBlock(
+      'Reports & Analysis', 'Summarize records visible to your account.'
+    ) + `
+      <div class="stats">
+        <div class="card"><div class="stat-number">${r.totalRecords}</div>
+          <div class="stat-label">Records in report</div></div>
+        <div class="card"><div class="stat-number">${r.summary.length}</div>
+          <div class="stat-label">Distinct indicators</div></div>
+      </div>
+      <div class="card">
+        <h3>Indicator summary</h3>
+        <p class="muted">Totals and averages include numeric values only.
+          Confirm that values use consistent units before comparing them.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Indicator</th><th>Records</th>
+          <th>Numeric total</th><th>Numeric average</th></tr></thead>
+          <tbody>${r.summary.map(s => `<tr>
+            <td>${escapeHtml(s.indicator)}</td>
+            <td>${s.records}</td><td>${s.numericTotal}</td>
+            <td>${s.numericAverage == null ? '—' : s.numericAverage}</td>
+          </tr>`).join('')}</tbody>
+        </table></div>
+        <div class="form-actions">
+          <button class="btn" onclick="exportReport()">Export CSV</button>
+          <button class="btn secondary" onclick="window.print()">Print / PDF</button>
+        </div>
+      </div>`;
+  }
+
+  async function exportReport() {
+    const r = await callApi('report');
+    if (!r.success) throw new Error(r.message);
+
+    const data = [['Date','HealthCenterID','Indicator','Value','Notes'],
+      ...(r.records || []).map(x => [
+        x.Date, x.HealthCenterID, x.Indicator, x.Value, x.Notes
+      ])];
+
+    const csv = data.map(row => row.map(value =>
+      '"' + String(value == null ? '' : value).replace(/"/g, '""') + '"'
+    ).join(',')).join('\r\n');
+
+    const blob = new Blob(['\uFEFF' + csv], {
+      type: 'text/csv;charset=utf-8;'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'NASHO_Health_Report.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function renderAudit() {
+    const r = await callApi('audit');
+    if (!r.success) throw new Error(r.message);
+
+    $('view').innerHTML = titleBlock(
+      'Audit Log', 'Review recent administrative and data actions.'
+    ) + `<div class="card"><div class="table-wrap"><table>
+      <thead><tr><th>Timestamp</th><th>Username</th>
+      <th>Action</th><th>Details</th></tr></thead><tbody>
+      ${(r.logs || []).map(x => `<tr>
+        <td>${escapeHtml(x.Timestamp)}</td>
+        <td>${escapeHtml(x.Username)}</td>
+        <td>${escapeHtml(x.Action)}</td>
+        <td>${escapeHtml(x.Details)}</td>
+      </tr>`).join('')}
+      </tbody></table></div></div>`;
+  }
+
+  function renderPassword() {
+    $('view').innerHTML = titleBlock(
+      'Change Password', 'Update your own account password.'
+    ) + `<div class="card">
+      <label>Current password</label>
+      <input id="currentPassword" type="password" autocomplete="current-password">
+      <label>New password</label>
+      <input id="newPassword" type="password" autocomplete="new-password">
+      <label>Confirm new password</label>
+      <input id="confirmPassword" type="password" autocomplete="new-password">
+      <button class="btn full" onclick="changePassword()">Change password</button>
+    </div>`;
+  }
+
+  async function changePassword() {
+    const next = $('newPassword').value;
+    if (next !== $('confirmPassword').value) {
+      throw new Error('The new passwords do not match.');
+    }
+
+    const r = await callApi('changeMyPassword', {
+      currentPassword: $('currentPassword').value,
+      newPassword: next
+    });
+    if (!r.success) throw new Error(r.message);
+
+    $('currentPassword').value = '';
+    $('newPassword').value = '';
+    $('confirmPassword').value = '';
+    showMessage('appMessage', r.message, 'ok');
+  }
+
+  // Convert async errors from button handlers into visible messages.
+  window.addEventListener('unhandledrejection', event => {
+    const message = event.reason && event.reason.message
+      ? event.reason.message : 'The operation failed.';
+    showMessage('appMessage', message, 'error');
+  });
+
+  initialize();
+</script>
+</body>
+</html>
