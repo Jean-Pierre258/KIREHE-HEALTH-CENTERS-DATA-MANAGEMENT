@@ -5,6 +5,7 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     :root {
       --primary:#087f8c;
@@ -16,10 +17,8 @@
     }
     * { box-sizing:border-box; }
     body {
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      color:var(--dark);
-      background:var(--bg);
+      margin:0;font-family:Arial,Helvetica,sans-serif;
+      color:var(--dark);background:var(--bg);
     }
     button,input,select,textarea { font:inherit; }
     button {
@@ -34,7 +33,7 @@
       width:100%;padding:11px;border:1px solid var(--border);
       border-radius:8px;background:white;color:var(--dark);
     }
-    textarea { min-height:100px;resize:vertical; }
+    textarea { min-height:90px;resize:vertical; }
     label { display:block;font-weight:700;font-size:13px;margin-bottom:6px; }
     .field { margin-bottom:14px; }
     .hidden { display:none!important; }
@@ -65,8 +64,7 @@
       content:"";position:absolute;inset:0;z-index:-2;
       background-image:url("https://upload.wikimedia.org/wikipedia/commons/1/17/Coat_of_arms_of_Rwanda.svg");
       background-position:center;background-repeat:no-repeat;
-      background-size:min(75vw,560px);
-      opacity:.16;
+      background-size:min(75vw,560px);opacity:.16;
     }
     .auth-wrap:after {
       content:"";position:absolute;inset:0;z-index:-1;
@@ -78,19 +76,10 @@
       background:#ffffffed;backdrop-filter:blur(5px);
     }
     .brand { text-align:center;margin-bottom:22px; }
-    .coat {
-      width:100px;height:100px;object-fit:contain;
-      margin:0 auto 9px;display:block;
-    }
-    .brand-kicker {
-      color:var(--primary);font-size:14px;font-weight:800;
-      letter-spacing:4px;
-    }
+    .coat { width:100px;height:100px;object-fit:contain;margin:0 auto 9px;display:block; }
+    .brand-kicker { color:var(--primary);font-size:14px;font-weight:800;letter-spacing:4px; }
     .brand h1 { font-size:23px;letter-spacing:1px; }
-    .brand h2 {
-      color:var(--primary);font-size:16px;
-      letter-spacing:2px;margin:7px 0;
-    }
+    .brand h2 { color:var(--primary);font-size:16px;letter-spacing:2px;margin:7px 0; }
     .gold-line { width:76px;height:3px;background:var(--gold);margin:15px auto; }
     .login-button { width:100%;padding:13px; }
     .topbar {
@@ -104,10 +93,7 @@
     .tabs { display:flex;gap:8px;overflow-x:auto;margin-bottom:18px;padding-bottom:3px; }
     .tabs button { white-space:nowrap; }
     .tabs button.active { background:var(--dark); }
-    .stats {
-      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:12px;margin-bottom:18px;
-    }
+    .stats { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px; }
     .stat { background:white;border:1px solid var(--border);border-radius:12px;padding:16px; }
     .stat .num { font-size:28px;font-weight:800;margin-top:8px; }
     .grid2 { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
@@ -115,28 +101,13 @@
       border:1px solid var(--border);border-radius:10px;
       padding:12px;margin-bottom:10px;background:white;overflow-wrap:anywhere;
     }
-    .pill {
-      display:inline-block;padding:4px 9px;border-radius:20px;
-      background:#e2f4f3;color:#086c70;font-size:11px;
-    }
-    .message {
-      background:white;border:1px solid var(--border);border-radius:12px;
-      padding:13px;margin-bottom:12px;overflow-wrap:anywhere;
-    }
+    .pill { display:inline-block;padding:4px 9px;border-radius:20px;background:#e2f4f3;color:#086c70;font-size:11px; }
+    .message { background:white;border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:12px;overflow-wrap:anywhere; }
     .message.mine { border-left:4px solid var(--primary); }
     .message-text { white-space:pre-wrap;margin:12px 0; }
-    .attachment {
-      display:inline-block;background:#edf5f6;color:#075c67;
-      border:1px solid #d4e5e8;border-radius:8px;padding:8px;
-      margin:5px 4px 0 0;cursor:pointer;text-align:left;
-    }
-    .preview img,.preview video {
-      max-width:100%;max-height:360px;display:block;margin-top:10px;
-      border-radius:8px;
-    }
     .table-wrap { overflow-x:auto; }
-    table { border-collapse:collapse;width:100%;font-size:13px; }
-    th,td { text-align:left;padding:10px;border-bottom:1px solid var(--border); }
+    table { border-collapse:collapse;width:100%;font-size:13px;min-width:580px; }
+    th,td { text-align:left;padding:10px;border-bottom:1px solid var(--border);vertical-align:top; }
     th { background:#f2f7f8; }
     .footer-note { text-align:center;margin-top:15px; }
     @media(max-width:720px) {
@@ -148,9 +119,10 @@
     }
   </style>
 </head>
+
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="authView" class="auth-wrap">
   <div class="login-card">
     <div class="brand">
@@ -167,43 +139,31 @@
 
     <div id="authNotice" class="notice hidden"></div>
 
-    <div id="loginForm">
+    <form id="loginForm">
       <h2>Login to your account</h2>
       <div class="field">
         <label for="loginRole">Choose account type</label>
-        <select id="loginRole">
+        <select id="loginRole" required>
           <option value="">Select your role</option>
-          <option value="Admin">Administrator</option>
-          <option value="Data Manager">Data Manager</option>
-          <option value="Viewer">Viewer / Read only</option>
+          <option value="ADMIN">Administrator</option>
+          <option value="DATA_MANAGER">Data Manager</option>
+          <option value="VIEWER">Viewer / Read only</option>
         </select>
       </div>
       <div class="field">
         <label for="loginUsername">Username</label>
-        <input id="loginUsername" autocomplete="username" placeholder="Enter username">
+        <input id="loginUsername" autocomplete="username"
+          placeholder="Enter username" required>
       </div>
       <div class="field">
         <label for="loginPassword">Password</label>
         <input id="loginPassword" type="password"
-          autocomplete="current-password" placeholder="Enter password">
+          autocomplete="current-password" maxlength="6"
+          placeholder="Enter password" required>
       </div>
-      <button class="login-button" id="loginBtn" onclick="login()">SIGN IN</button>
+      <button class="login-button" id="loginBtn" type="submit">SIGN IN</button>
       <p class="muted footer-note">Authorized health personnel only.</p>
-    </div>
-
-    <!-- This form appears only before the first account is created. -->
-    <div id="setupForm" class="hidden">
-      <h2>Initial Administrator Setup</h2>
-      <p class="muted">Create the first Admin account to start the platform.</p>
-      <div class="field"><label>Full name</label><input id="setupName"></div>
-      <div class="field"><label>Username</label><input id="setupUsername"></div>
-      <div class="field"><label>Email</label><input id="setupEmail" type="email"></div>
-      <div class="field">
-        <label>Password (minimum 10 characters)</label>
-        <input id="setupPassword" type="password" autocomplete="new-password">
-      </div>
-      <button class="login-button" onclick="createFirstAdmin()">CREATE FIRST ADMIN</button>
-    </div>
+    </form>
   </div>
 </div>
 
@@ -230,6 +190,7 @@
       <button class="adminOnly hidden" data-tab="users" onclick="openTab('users')">User Management</button>
       <button class="adminOnly hidden" data-tab="centers" onclick="openTab('centers')">Health Centers</button>
       <button class="adminOnly hidden" data-tab="audit" onclick="openTab('audit')">Audit Log</button>
+      <button data-tab="password" onclick="openTab('password')">Change Password</button>
     </nav>
 
     <!-- DASHBOARD -->
@@ -239,10 +200,11 @@
       <div class="card">
         <h2>Welcome</h2>
         <p id="welcomeText"></p>
-        <p class="muted">
-          Your available pages depend on your assigned role.
-          Use Messages to communicate with permitted colleagues.
-        </p>
+        <p class="muted">Pages and data depend on your assigned role.</p>
+      </div>
+      <div class="card">
+        <h2>Recent health data</h2>
+        <div id="recentRecords"></div>
       </div>
       <div class="card">
         <h2>Quick actions</h2>
@@ -256,27 +218,25 @@
 
     <!-- MESSAGES -->
     <section id="tab-messages" class="hidden">
-      <h2>Messages & Attachments</h2>
+      <h2>Messages</h2>
       <div class="grid2">
         <div class="card">
           <h2>Compose message</h2>
           <div class="field">
             <label>Recipient</label>
-            <select id="recipient"><option value="">Select recipient</option></select>
+            <select id="recipient"></select>
+          </div>
+          <div class="field">
+            <label>Subject</label>
+            <input id="messageSubject" maxlength="200" placeholder="Message subject">
           </div>
           <div class="field">
             <label>Message</label>
-            <textarea id="messageText" maxlength="4000"
-              placeholder="Type your message here..."></textarea>
-          </div>
-          <div class="field">
-            <label>Attach photos, videos or documents</label>
-            <input id="messageFiles" type="file" multiple
-              accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.ppt,.pptx,.zip">
-            <p class="muted">Maximum 5 files per message, 5 MB each.</p>
+            <textarea id="messageText" maxlength="4000" placeholder="Type your message"></textarea>
           </div>
           <button id="sendBtn" onclick="sendMessage()">➤ Send</button>
           <button class="secondary" onclick="clearComposer()">Clear</button>
+          <p class="muted small">Text messages are supported in this version. Attachments require additional backend code.</p>
         </div>
         <div class="card">
           <div class="row">
@@ -284,12 +244,6 @@
             <button class="secondary" onclick="loadMessages()">Refresh</button>
           </div>
           <div id="messageList"><p class="muted">Loading messages...</p></div>
-        </div>
-      </div>
-      <div class="card">
-        <h2>File preview</h2>
-        <div id="attachmentPreview" class="preview muted">
-          Choose an attachment to preview or download.
         </div>
       </div>
     </section>
@@ -300,20 +254,29 @@
       <div id="recordForm" class="card">
         <h2>Add health data record</h2>
         <div class="field adminOnly hidden">
-          <label>Health Center</label><select id="recordCenter"></select>
+          <label>Health Center</label>
+          <select id="recordCenter"></select>
         </div>
         <div class="field">
           <label>Category / Indicator</label>
-          <input id="recordCategory" placeholder="OPD, Maternity, Immunization...">
+          <input id="recordCategory" maxlength="200"
+            placeholder="OPD, Maternity, Immunization..." required>
         </div>
         <div class="field">
-          <label>Reporting date</label><input id="recordDate" type="date">
+          <label>Reporting date</label>
+          <input id="recordDate" type="date" required>
         </div>
         <div class="field">
-          <label>Description / Summary</label>
-          <textarea id="recordDescription" placeholder="Enter summary"></textarea>
+          <label>Value</label>
+          <input id="recordValue" maxlength="100" placeholder="Enter value" required>
+        </div>
+        <div class="field">
+          <label>Description / Notes</label>
+          <textarea id="recordDescription" maxlength="2000"
+            placeholder="Enter summary or notes"></textarea>
         </div>
         <button onclick="saveRecord()">Save record</button>
+        <button class="secondary" onclick="clearRecordForm()">Clear</button>
       </div>
       <div class="card">
         <div class="row">
@@ -324,46 +287,33 @@
       </div>
     </section>
 
-    <!-- ADMIN: USER MANAGEMENT -->
+    <!-- USERS -->
     <section id="tab-users" class="hidden">
       <h2>Admin Dashboard — User Management</h2>
       <div class="card">
-        <h2 id="userFormTitle">Create user account</h2>
-        <p class="muted">
-          Add and manage Admin, Data Manager and Viewer accounts here.
-          New accounts are created through this dashboard, not by manually
-          entering passwords into the spreadsheet.
-        </p>
-        <input id="userID" type="hidden">
+        <h2>Create user account</h2>
+        <p class="muted">Create Admin, Data Manager or Viewer accounts. Passwords must contain exactly six letters and/or numbers.</p>
         <div class="grid2">
-          <div class="field"><label>Full name</label><input id="userFullName"></div>
-          <div class="field"><label>Username</label><input id="userUsername"></div>
+          <div class="field"><label>Full name</label><input id="userFullName" maxlength="150"></div>
+          <div class="field"><label>Username</label><input id="userUsername" maxlength="40"></div>
           <div class="field">
             <label>Account role</label>
             <select id="userRole" onchange="toggleUserCenter()">
-              <option value="Data Manager">Data Manager</option>
-              <option value="Admin">Admin</option>
-              <option value="Viewer">Viewer</option>
+              <option value="DATA_MANAGER">Data Manager</option>
+              <option value="ADMIN">Admin</option>
+              <option value="VIEWER">Viewer</option>
             </select>
           </div>
           <div class="field" id="userCenterField">
             <label>Assigned Health Center</label><select id="userCenter"></select>
           </div>
-          <div class="field"><label>Email</label><input id="userEmail" type="email"></div>
           <div class="field">
-            <label>Password (minimum 10 characters)</label>
-            <input id="userPassword" type="password" autocomplete="new-password"
-              placeholder="Required for new account">
-          </div>
-          <div class="field">
-            <label>Status</label>
-            <select id="userStatus">
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
+            <label>Password (6 characters)</label>
+            <input id="userPassword" type="password" minlength="6"
+              maxlength="6" pattern="[A-Za-z0-9]{6}" autocomplete="new-password">
           </div>
         </div>
-        <button onclick="saveUser()">Save account</button>
+        <button onclick="saveUser()">Create account</button>
         <button class="secondary" onclick="clearUserForm()">Clear form</button>
       </div>
       <div class="card">
@@ -375,28 +325,41 @@
       </div>
     </section>
 
-    <!-- ADMIN: CENTERS -->
+    <!-- CENTERS -->
     <section id="tab-centers" class="hidden">
       <h2>Health Center Management</h2>
       <div class="card">
-        <h2>Add or edit health center</h2>
-        <input id="centerID" type="hidden">
+        <h2>Add health center</h2>
         <div class="grid2">
-          <div class="field"><label>Health center name</label><input id="centerName"></div>
+          <div class="field"><label>Health center name</label><input id="centerName" maxlength="150"></div>
           <div class="field"><label>District</label><input id="centerDistrict" value="Kirehe"></div>
+          <div class="field"><label>Sector</label><input id="centerSector" maxlength="100"></div>
         </div>
-        <button onclick="saveCenter()">Save health center</button>
-        <button class="secondary" onclick="clearCenterForm()">Clear</button>
+        <button onclick="saveCenter()">Add health center</button>
       </div>
-      <div class="card"><div id="centerList" class="table-wrap"></div></div>
+      <div class="card">
+        <h2>Registered health centers</h2>
+        <div id="centerList" class="table-wrap"></div>
+      </div>
     </section>
 
-    <!-- ADMIN: AUDIT -->
+    <!-- AUDIT -->
     <section id="tab-audit" class="hidden">
       <h2>Audit Log</h2>
       <div class="card">
         <button class="secondary" onclick="loadAudit()">Refresh log</button>
         <div id="auditList" class="table-wrap" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- CHANGE PASSWORD -->
+    <section id="tab-password" class="hidden">
+      <h2>Change Password</h2>
+      <div class="card" style="max-width:520px">
+        <div class="field"><label>Current password</label><input id="oldPassword" type="password" maxlength="6"></div>
+        <div class="field"><label>New password (6 characters)</label><input id="newPassword" type="password" maxlength="6" pattern="[A-Za-z0-9]{6}"></div>
+        <div class="field"><label>Confirm new password</label><input id="confirmPassword" type="password" maxlength="6" pattern="[A-Za-z0-9]{6}"></div>
+        <button onclick="changePassword()">Update password</button>
       </div>
     </section>
   </main>
@@ -407,7 +370,8 @@
   let ME = null;
   let USERS = [];
   let CENTERS = [];
-  let ACTIVE_TAB = "dashboard";
+  let RECORDS = [];
+  let MESSAGES = [];
 
   const $ = id => document.getElementById(id);
 
@@ -417,143 +381,119 @@
     })[c]);
   }
 
-  function jsArg(value) {
-    return JSON.stringify(String(value == null ? "" : value));
-  }
-
-  function showNotice(message, error, auth) {
+  function showNotice(message, error=false, auth=false) {
     const box = $(auth ? "authNotice" : "notice");
-    box.textContent = message;
-    box.classList.remove("hidden", "error");
-    if (error) box.classList.add("error");
+    box.textContent = message || "";
+    box.classList.toggle("hidden", !message);
+    box.classList.toggle("error", !!error);
   }
 
-  function hideNotice(auth) {
+  function hideNotice(auth=false) {
     $(auth ? "authNotice" : "notice").classList.add("hidden");
   }
 
-  function callServer(method, args) {
+  function runServer(method, args=[]) {
     return new Promise((resolve, reject) => {
-      const runner = google.script.run
+      google.script.run
         .withSuccessHandler(resolve)
-        .withFailureHandler(err => reject(
-          new Error(err && err.message ? err.message : String(err))
-        ));
-      runner[method].apply(runner, args || []);
+        .withFailureHandler(e => reject(new Error(e.message || String(e))))
+        [method](...args);
     });
   }
 
-  async function initializeLogin() {
-    try {
-      const config = await callServer("getLoginConfig", []);
-      if (!config.initialized) {
-        showNotice("Database is not initialized. Ask the system administrator to initialize it.", true, true);
-        $("loginBtn").disabled = true;
-        return;
-      }
-      if (config.needsFirstAdmin) {
-        $("loginForm").classList.add("hidden");
-        $("setupForm").classList.remove("hidden");
-      } else {
-        $("loginForm").classList.remove("hidden");
-        $("setupForm").classList.add("hidden");
-      }
-    } catch (e) {
-      showNotice(e.message, true, true);
+  async function api(action, payload={}) {
+    const result = await runServer("apiCall", [TOKEN, action, payload]);
+    if (!result || !result.success) {
+      throw new Error(result && result.error ? result.error : "Request failed.");
     }
+    return result.data;
   }
 
-  async function createFirstAdmin() {
-    try {
-      hideNotice(true);
-      const result = await callServer("setupFirstAdmin", [
-        $("setupName").value,
-        $("setupUsername").value,
-        $("setupPassword").value,
-        $("setupEmail").value
-      ]);
-      TOKEN = result.token;
-      ME = result.user;
-      await startApp();
-    } catch (e) {
-      showNotice(e.message, true, true);
-    }
+  function roleName(role) {
+    return ({
+      ADMIN:"Admin",
+      DATA_MANAGER:"Data Manager",
+      VIEWER:"Viewer"
+    })[String(role).toUpperCase()] || role;
   }
 
-  async function login() {
-    try {
-      hideNotice(true);
-      const role = $("loginRole").value;
-      if (!role) throw new Error("Choose whether you are Admin, Data Manager or Viewer.");
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const button = $("loginBtn");
+    button.disabled = true;
+    hideNotice(true);
 
-      const result = await callServer("login", [
-        $("loginUsername").value,
-        $("loginPassword").value,
-        role
+    try {
+      const result = await runServer("apiLogin", [
+        $("loginUsername").value.trim(),
+        $("loginPassword").value
       ]);
+
+      if (!result || !result.success) {
+        throw new Error(result && result.error ? result.error : "Login failed.");
+      }
+
+      const chosenRole = $("loginRole").value;
+      if (result.user.role.toUpperCase() !== chosenRole) {
+        await runServer("apiLogout", [result.token]);
+        throw new Error("The selected account type does not match your account role.");
+      }
+
       TOKEN = result.token;
       ME = result.user;
       $("loginPassword").value = "";
-      await startApp();
+
+      $("authView").classList.add("hidden");
+      $("appView").classList.remove("hidden");
+
+      $("whoAmI").textContent = ME.fullName + " · " + roleName(ME.role);
+      $("welcomeText").textContent =
+        "Welcome, " + ME.fullName + ". Your role is " + roleName(ME.role) + ".";
+
+      applyPermissions();
+      await loadAll();
+      openTab("dashboard");
     } catch (e) {
       showNotice(e.message, true, true);
+    } finally {
+      button.disabled = false;
     }
+  });
+
+  function applyPermissions() {
+    const isAdmin = ME.role.toUpperCase() === "ADMIN";
+    const canEdit = ["ADMIN","DATA_MANAGER"].includes(ME.role.toUpperCase());
+
+    document.querySelectorAll(".adminOnly").forEach(el => {
+      el.classList.toggle("hidden", !isAdmin);
+    });
+
+    $("recordForm").classList.toggle("hidden", !canEdit);
   }
 
   async function logout() {
-    try { await callServer("logout", [TOKEN]); } catch (e) {}
+    try { await runServer("apiLogout", [TOKEN]); } catch (e) {}
     TOKEN = "";
     ME = null;
     USERS = [];
     CENTERS = [];
+    RECORDS = [];
+    MESSAGES = [];
     $("appView").classList.add("hidden");
     $("authView").classList.remove("hidden");
-    $("loginPassword").value = "";
-    await initializeLogin();
-  }
-
-  async function startApp() {
-    $("authView").classList.add("hidden");
-    $("appView").classList.remove("hidden");
-
-    $("whoAmI").textContent = ME.fullName + " · " + ME.role;
-    $("welcomeText").textContent = "Welcome, " + ME.fullName +
-      ". Role: " + ME.role +
-      (ME.healthCenter ? " · Health Center: " + ME.healthCenter : "");
-
-    document.querySelectorAll(".adminOnly").forEach(node => {
-      node.classList.toggle("hidden", ME.role !== "Admin");
-    });
-
-    $("recordForm").classList.toggle("hidden", ME.role === "Viewer");
-
-    try {
-      const state = await callServer("getAppState", [TOKEN]);
-      CENTERS = state.centers || [];
-
-      if (ME.role === "Admin") {
-        await loadUsers();
-      } else {
-        USERS = await callServer("listMessageRecipients", [TOKEN]);
-      }
-
-      fillCenterSelects();
-      await Promise.all([loadDashboard(), loadMessages(), loadRecords()]);
-      openTab("dashboard");
-    } catch (e) {
-      showNotice(e.message, true);
-    }
+    hideNotice(true);
   }
 
   function openTab(name) {
-    ACTIVE_TAB = name;
     document.querySelectorAll('main section[id^="tab-"]').forEach(section => {
       section.classList.toggle("hidden", section.id !== "tab-" + name);
     });
+
     document.querySelectorAll("#tabs button").forEach(button => {
       button.classList.toggle("active", button.dataset.tab === name);
     });
-    hideNotice(false);
+
+    hideNotice();
 
     if (name === "messages") loadMessages();
     if (name === "records") loadRecords();
@@ -562,347 +502,321 @@
     if (name === "audit") loadAudit();
   }
 
-  async function loadDashboard() {
+  async function loadAll() {
     try {
-      const d = await callServer("getDashboard", [TOKEN]);
-      const cards = [];
-      if (ME.role === "Admin") {
-        cards.push(["Total users", d.users], ["Active users", d.activeUsers],
-          ["Health centers", d.centers]);
-      }
-      cards.push(["Health records", d.records], ["Messages", d.messages]);
+      const dashboard = await api("dashboard");
+      CENTERS = await api("listCenters");
+      RECORDS = await api("listHealthData");
+      USERS = ME.role.toUpperCase() === "ADMIN"
+        ? await api("listUsers")
+        : await getRecipients();
 
-      $("stats").innerHTML = cards.map(c =>
-        '<div class="stat"><div class="muted">' + esc(c[0]) +
-        '</div><div class="num">' + esc(c[1]) + '</div></div>'
-      ).join("");
-    } catch (e) { showNotice(e.message, true); }
+      renderDashboard(dashboard);
+      fillCenterSelects();
+      fillRecipients();
+      renderRecords();
+      showNotice("System data refreshed successfully.");
+    } catch (e) {
+      showNotice(e.message, true);
+    }
   }
 
-  function fillRecipientSelect() {
-    const select = $("recipient");
-    const old = select.value;
-    let html = '<option value="">Select recipient</option>';
-    if (ME.role === "Admin") {
-      html += '<option value="all">All users (broadcast)</option>';
-    }
-    USERS.filter(u => u.status === "Active" || u.Status === "Active")
-      .forEach(u => {
-        const username = u.username || u.Username;
-        const fullName = u.fullName || u.FullName || username;
-        html += '<option value="' + esc(username) + '">' +
-          esc(fullName + " (" + username + ")") + '</option>';
-      });
-    select.innerHTML = html;
-    if ([...select.options].some(o => o.value === old)) select.value = old;
+  function renderDashboard(d) {
+    const stats = [
+      ["Health centers", d.centers],
+      ["Users", d.users],
+      ["Health records", d.records],
+      ["Unread messages", d.messages]
+    ];
+
+    $("stats").innerHTML = stats.map(s =>
+      '<div class="stat"><div class="muted">' + esc(s[0]) +
+      '</div><div class="num">' + esc(s[1] || 0) + '</div></div>'
+    ).join("");
+
+    const recent = d.recentRecords || [];
+    $("recentRecords").innerHTML = recent.length ? tableHtml(
+      ["Date","Indicator","Value","Notes"],
+      recent.map(r => [
+        fmtDate(r.reportDate), r.indicator, r.value, r.notes
+      ])
+    ) : '<p class="muted">No health records have been added yet.</p>';
+  }
+
+  function tableHtml(headers, rows) {
+    if (!rows.length) return '<p class="muted">No records found.</p>';
+    return '<div class="table-wrap"><table><thead><tr>' +
+      headers.map(h => '<th>' + esc(h) + '</th>').join("") +
+      '</tr></thead><tbody>' +
+      rows.map(row => '<tr>' +
+        row.map(cell => '<td>' + esc(cell) + '</td>').join("") +
+      '</tr>').join("") +
+      '</tbody></table></div>';
+  }
+
+  function fmtDate(value) {
+    if (!value) return "";
+    const d = new Date(value);
+    return isNaN(d.getTime()) ? String(value) : d.toLocaleDateString();
   }
 
   function fillCenterSelects() {
-    ["userCenter", "recordCenter"].forEach(id => {
-      const select = $(id);
-      if (!select) return;
-      const old = select.value;
-      select.innerHTML = '<option value="">Select health center</option>' +
-        CENTERS.map(c => '<option value="' + esc(c) + '">' + esc(c) + '</option>').join("");
-      if (CENTERS.includes(old)) select.value = old;
-    });
+    const options = CENTERS.map(c =>
+      '<option value="' + esc(c.centerId) + '">' +
+      esc(c.centerName) + '</option>'
+    ).join("");
+
+    $("recordCenter").innerHTML = options || '<option value="">No centers available</option>';
+    $("userCenter").innerHTML = options || '<option value="">Add a health center first</option>';
+
+    if (ME.role.toUpperCase() !== "ADMIN") {
+      $("recordCenter").value = ME.centerId;
+    }
+
     toggleUserCenter();
   }
 
   function toggleUserCenter() {
-    const role = $("userRole").value;
-    const needsCenter = role === "Data Manager";
-    $("userCenter").disabled = !needsCenter;
-    $("userCenterField").classList.toggle("hidden", !needsCenter);
-    if (!needsCenter) $("userCenter").value = "";
+    const isAdmin = $("userRole").value === "ADMIN";
+    $("userCenter").disabled = isAdmin;
+    $("userCenter").parentElement.classList.toggle("hidden", isAdmin);
+  }
+
+  async function getRecipients() {
+    try {
+      return await api("listRecipients");
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function fillRecipients() {
+    $("recipient").innerHTML = USERS
+      .filter(u => String(u.userId) !== String(ME.userId) && u.active !== false)
+      .map(u => '<option value="' + esc(u.userId) + '">' +
+        esc(u.fullName + " (" + roleName(u.role) + ")") + '</option>')
+      .join("") || '<option value="">No recipients available</option>';
   }
 
   async function loadUsers() {
-    if (ME.role !== "Admin") return;
     try {
-      USERS = await callServer("listUsers", [TOKEN]);
-      fillRecipientSelect();
+      USERS = await api("listUsers");
+      fillRecipients();
 
-      $("userList").innerHTML = '<table><thead><tr>' +
-        '<th>Full name</th><th>Username</th><th>Role</th><th>Health center</th>' +
-        '<th>Status</th><th>Action</th></tr></thead><tbody>' +
-        USERS.map(u => '<tr><td>' + esc(u.fullName) + '</td><td>' +
-          esc(u.username) + '</td><td>' + esc(u.role) + '</td><td>' +
-          esc(u.healthCenter) + '</td><td>' + esc(u.status) + '</td><td>' +
-          '<button class="secondary" onclick="editUser(' + jsArg(u.userID) +
-          ')">Edit</button></td></tr>').join("") +
-        '</tbody></table>';
+      $("userList").innerHTML = tableHtml(
+        ["Full name","Username","Role","Health center","Status"],
+        USERS.map(u => {
+          const center = CENTERS.find(c => c.centerId === u.centerId);
+          return [
+            u.fullName,
+            u.username,
+            roleName(u.role),
+            center ? center.centerName : (u.role === "ADMIN" ? "All centers" : ""),
+            u.active ? "Active" : "Inactive"
+          ];
+        })
+      );
     } catch (e) { showNotice(e.message, true); }
-  }
-
-  function clearUserForm() {
-    ["userID","userFullName","userUsername","userEmail","userPassword"].forEach(id => $(id).value = "");
-    $("userRole").value = "Data Manager";
-    $("userStatus").value = "Active";
-    $("userFormTitle").textContent = "Create user account";
-    toggleUserCenter();
-  }
-
-  function editUser(id) {
-    const u = USERS.find(x => x.userID === id);
-    if (!u) return;
-    $("userID").value = u.userID;
-    $("userFullName").value = u.fullName;
-    $("userUsername").value = u.username;
-    $("userEmail").value = u.email || "";
-    $("userPassword").value = "";
-    $("userRole").value = u.role;
-    $("userCenter").value = u.healthCenter || "";
-    $("userStatus").value = u.status;
-    $("userFormTitle").textContent = "Edit account: " + u.username;
-    toggleUserCenter();
-    window.scrollTo({top:0, behavior:"smooth"});
   }
 
   async function saveUser() {
     try {
-      const result = await callServer("saveUser", [TOKEN, {
-        userID:$("userID").value,
+      const role = $("userRole").value;
+      const password = $("userPassword").value;
+
+      if (!/^[A-Za-z0-9]{6}$/.test(password)) {
+        throw new Error("Password must contain exactly 6 letters and/or numbers.");
+      }
+
+      const result = await api("saveUser", {
         fullName:$("userFullName").value,
         username:$("userUsername").value,
-        password:$("userPassword").value,
-        role:$("userRole").value,
-        healthCenter:$("userCenter").value,
-        email:$("userEmail").value,
-        status:$("userStatus").value
-      }]);
-      showNotice(result.message);
+        role:role,
+        centerId:role === "ADMIN" ? "" : $("userCenter").value,
+        password:password,
+        active:true
+      });
+
+      showNotice(result.message || "User created successfully.");
       clearUserForm();
       await loadUsers();
-      await loadDashboard();
+      await loadAll();
     } catch (e) { showNotice(e.message, true); }
+  }
+
+  function clearUserForm() {
+    ["userFullName","userUsername","userPassword"].forEach(id => $(id).value = "");
+    $("userRole").value = "DATA_MANAGER";
+    toggleUserCenter();
   }
 
   async function loadCenters() {
-    if (ME.role !== "Admin") return;
     try {
-      const data = await callServer("listCenters", [TOKEN]);
-      $("centerList").innerHTML = '<table><thead><tr><th>Name</th>' +
-        '<th>District</th><th>Status</th><th>Action</th></tr></thead><tbody>' +
-        data.map(c => '<tr><td>' + esc(c.CenterName) + '</td><td>' +
-          esc(c.District) + '</td><td>' + esc(c.Status) + '</td><td>' +
-          '<button class="secondary" onclick="editCenter(' + jsArg(c.CenterID) +
-          ')">Edit</button></td></tr>').join("") +
-        '</tbody></table>';
+      CENTERS = await api("listCenters");
+      $("centerList").innerHTML = tableHtml(
+        ["Health center","District","Sector","Status"],
+        CENTERS.map(c => [
+          c.centerName, c.district, c.sector,
+          c.active === false ? "Inactive" : "Active"
+        ])
+      );
+      fillCenterSelects();
     } catch (e) { showNotice(e.message, true); }
-  }
-
-  async function editCenter(id) {
-    try {
-      const data = await callServer("listCenters", [TOKEN]);
-      const c = data.find(x => x.CenterID === id);
-      if (!c) return;
-      $("centerID").value = c.CenterID;
-      $("centerName").value = c.CenterName;
-      $("centerDistrict").value = c.District;
-      window.scrollTo({top:0, behavior:"smooth"});
-    } catch (e) { showNotice(e.message, true); }
-  }
-
-  function clearCenterForm() {
-    $("centerID").value = "";
-    $("centerName").value = "";
-    $("centerDistrict").value = "Kirehe";
   }
 
   async function saveCenter() {
     try {
-      const result = await callServer("saveCenter", [TOKEN, {
-        centerID:$("centerID").value,
+      const result = await api("addCenter", {
         centerName:$("centerName").value,
-        district:$("centerDistrict").value
-      }]);
-      showNotice(result.message);
-      clearCenterForm();
-      const state = await callServer("getAppState", [TOKEN]);
-      CENTERS = state.centers || [];
-      fillCenterSelects();
+        district:$("centerDistrict").value || "Kirehe",
+        sector:$("centerSector").value
+      });
+
+      showNotice(result.message || "Health center added.");
+      $("centerName").value = "";
+      $("centerDistrict").value = "Kirehe";
+      $("centerSector").value = "";
       await loadCenters();
-      await loadUsers();
-      await loadDashboard();
+      await loadAll();
     } catch (e) { showNotice(e.message, true); }
   }
 
   async function saveRecord() {
     try {
-      const result = await callServer("saveHealthRecord", [TOKEN, {
-        healthCenter:ME.role === "Admin" ? $("recordCenter").value : ME.healthCenter,
-        category:$("recordCategory").value,
-        recordDate:$("recordDate").value,
-        description:$("recordDescription").value
-      }]);
-      showNotice(result.message);
-      $("recordCategory").value = "";
-      $("recordDate").value = "";
-      $("recordDescription").value = "";
+      const role = ME.role.toUpperCase();
+      const result = await api("saveHealthData", {
+        centerId:role === "ADMIN" ? $("recordCenter").value : ME.centerId,
+        reportDate:$("recordDate").value,
+        indicator:$("recordCategory").value,
+        value:$("recordValue").value,
+        notes:$("recordDescription").value
+      });
+
+      showNotice(result.message || "Health data saved.");
+      clearRecordForm();
       await loadRecords();
       await loadDashboard();
     } catch (e) { showNotice(e.message, true); }
   }
 
+  function clearRecordForm() {
+    $("recordCategory").value = "";
+    $("recordDate").value = new Date().toISOString().slice(0,10);
+    $("recordValue").value = "";
+    $("recordDescription").value = "";
+  }
+
   async function loadRecords() {
     try {
-      const records = await callServer("listHealthRecords", [TOKEN]);
-      $("recordList").innerHTML = records.length ? records.map(r =>
-        '<div class="list-item"><div class="row"><strong class="grow">' +
-        esc(r.category) + '</strong><span class="pill">' + esc(r.healthCenter) +
-        '</span></div><p>' + esc(r.description) + '</p><div class="muted small">' +
-        esc(r.recordDate) + ' · By ' + esc(r.createdBy) + '</div></div>'
-      ).join("") : '<p class="muted">No records found.</p>';
+      RECORDS = await api("listHealthData");
+      renderRecords();
     } catch (e) { showNotice(e.message, true); }
   }
 
-  function readFile(file) {
-    return new Promise((resolve, reject) => {
-      if (file.size > 5 * 1024 * 1024) {
-        reject(new Error(file.name + " exceeds 5 MB."));
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => resolve({
-        name:file.name,
-        mimeType:file.type || "application/octet-stream",
-        base64:String(reader.result).split(",")[1]
-      });
-      reader.onerror = () => reject(new Error("Could not read " + file.name));
-      reader.readAsDataURL(file);
+  function renderRecords() {
+    const rows = RECORDS.map(r => {
+      const center = CENTERS.find(c => c.centerId === r.centerId);
+      return [
+        fmtDate(r.reportDate),
+        center ? center.centerName : r.centerId,
+        r.indicator,
+        r.value,
+        r.notes
+      ];
     });
+
+    $("recordList").innerHTML = tableHtml(
+      ["Date","Health center","Indicator","Value","Notes"], rows
+    );
   }
 
   async function sendMessage() {
     const button = $("sendBtn");
+    button.disabled = true;
+
     try {
-      hideNotice(false);
-      button.disabled = true;
+      const result = await api("sendMessage", {
+        recipientId:$("recipient").value,
+        subject:$("messageSubject").value,
+        message:$("messageText").value
+      });
 
-      const selected = Array.from($("messageFiles").files || []);
-      if (selected.length > 5) throw new Error("Maximum 5 attachments per message.");
-
-      const files = [];
-      for (const file of selected) files.push(await readFile(file));
-
-      const result = await callServer("sendMessage", [TOKEN, {
-        recipient:$("recipient").value,
-        message:$("messageText").value,
-        files:files
-      }]);
-
-      showNotice(result.message);
+      showNotice(result.message || "Message sent.");
       clearComposer();
       await loadMessages();
       await loadDashboard();
-    } catch (e) {
-      showNotice(e.message, true);
-    } finally {
-      button.disabled = false;
-    }
+    } catch (e) { showNotice(e.message, true); }
+    finally { button.disabled = false; }
   }
 
   function clearComposer() {
     $("messageText").value = "";
-    $("messageFiles").value = "";
+    $("messageSubject").value = "";
   }
 
   async function loadMessages() {
     try {
-      USERS = await callServer("listMessageRecipients", [TOKEN]);
-      fillRecipientSelect();
-      const messages = await callServer("listMessages", [TOKEN]);
+      MESSAGES = await api("listMessages");
+      const allUsers = ME.role.toUpperCase() === "ADMIN"
+        ? await api("listUsers")
+        : USERS;
 
-      $("messageList").innerHTML = messages.length ? messages.map(m => {
-        const mine = m.sender === ME.username;
-        const attachments = (m.attachments || []).map(a => {
-          const icon = a.mimeType.startsWith("image/") ? "🖼️" :
-            a.mimeType.startsWith("video/") ? "🎬" : "📎";
-          return '<button class="attachment" onclick="previewAttachment(' +
-            jsArg(m.messageID) + ',' + jsArg(a.fileId) + ')">' +
-            icon + ' ' + esc(a.name) + '</button>';
-        }).join("");
-
-        return '<article class="message ' + (mine ? "mine" : "") + '">' +
-          '<div class="row"><strong>' + esc(m.sender) + '</strong>' +
-          '<span class="pill">' + (mine ? "Sent" : "Received") + '</span>' +
-          '<span class="muted small">' + esc(formatDate(m.createdAt)) + '</span></div>' +
-          '<div class="muted small">To: ' + esc(m.recipient) + '</div>' +
-          (m.message ? '<div class="message-text">' + esc(m.message) + '</div>' : '') +
-          '<div>' + attachments + '</div></article>';
+      $("messageList").innerHTML = MESSAGES.length ? MESSAGES.map(m => {
+        const sender = allUsers.find(u => u.userId === m.senderId);
+        const recipient = allUsers.find(u => u.userId === m.recipientId);
+        return '<article class="message">' +
+          '<div class="row"><strong>' +
+          esc(sender ? sender.fullName : m.senderId) +
+          '</strong><span class="pill">' +
+          (String(m.senderId) === String(ME.userId) ? "Sent" : "Received") +
+          '</span></div>' +
+          '<div class="muted small">To: ' +
+          esc(recipient ? recipient.fullName : m.recipientId) +
+          ' · ' + esc(fmtDate(m.createdAt)) + '</div>' +
+          '<h3>' + esc(m.subject) + '</h3>' +
+          '<div class="message-text">' + esc(m.message) + '</div>' +
+          '</article>';
       }).join("") : '<p class="muted">No messages yet.</p>';
     } catch (e) { showNotice(e.message, true); }
   }
 
-  async function previewAttachment(messageID, fileID) {
-    try {
-      $("attachmentPreview").textContent = "Loading attachment...";
-      const data = await callServer("getAttachment", [TOKEN, messageID, fileID]);
-
-      const binary = atob(data.base64);
-      const bytes = new Uint8Array(binary.length);
-      for (let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
-
-      const blob = new Blob([bytes], {type:data.mimeType});
-      const url = URL.createObjectURL(blob);
-      const box = $("attachmentPreview");
-      box.innerHTML = "";
-
-      const title = document.createElement("p");
-      title.textContent = data.name;
-      box.appendChild(title);
-
-      if (data.mimeType.startsWith("image/")) {
-        const img = document.createElement("img");
-        img.src = url;
-        img.alt = data.name;
-        box.appendChild(img);
-      } else if (data.mimeType.startsWith("video/")) {
-        const video = document.createElement("video");
-        video.src = url;
-        video.controls = true;
-        box.appendChild(video);
-      } else if (data.mimeType === "application/pdf") {
-        const open = document.createElement("a");
-        open.href = url;
-        open.target = "_blank";
-        open.rel = "noopener";
-        open.textContent = "Open PDF";
-        box.appendChild(open);
-      }
-
-      const download = document.createElement("a");
-      download.href = url;
-      download.download = data.name;
-      download.textContent = "Download file";
-      download.style.display = "block";
-      download.style.marginTop = "12px";
-      box.appendChild(download);
-    } catch (e) {
-      $("attachmentPreview").textContent = e.message;
-    }
-  }
-
   async function loadAudit() {
     try {
-      const items = await callServer("getAuditLog", [TOKEN]);
-      $("auditList").innerHTML = '<table><thead><tr><th>Date</th><th>User</th>' +
-        '<th>Action</th><th>Details</th></tr></thead><tbody>' +
-        items.map(x => '<tr><td>' + esc(formatDate(x.createdAt)) + '</td><td>' +
-          esc(x.username) + '</td><td>' + esc(x.action) + '</td><td>' +
-          esc(x.details) + '</td></tr>').join("") + '</tbody></table>';
+      const logs = await api("listAudit");
+      $("auditList").innerHTML = tableHtml(
+        ["Date","Username","Action","Details"],
+        logs.map(x => [fmtDate(x.createdAt),x.username,x.action,x.details])
+      );
     } catch (e) { showNotice(e.message, true); }
   }
 
-  function formatDate(value) {
-    if (!value) return "";
-    const d = new Date(value);
-    return isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+  async function changePassword() {
+    try {
+      const next = $("newPassword").value;
+      if (!/^[A-Za-z0-9]{6}$/.test(next)) {
+        throw new Error("New password must contain exactly 6 letters and/or numbers.");
+      }
+      if (next !== $("confirmPassword").value) {
+        throw new Error("New passwords do not match.");
+      }
+
+      const result = await api("changePassword", {
+        oldPassword:$("oldPassword").value,
+        newPassword:next
+      });
+
+      ["oldPassword","newPassword","confirmPassword"].forEach(id => $(id).value = "");
+      showNotice(result.message || "Password changed.");
+    } catch (e) { showNotice(e.message, true); }
+  }
+
+  async function loadDashboard() {
+    try {
+      renderDashboard(await api("dashboard"));
+    } catch (e) { showNotice(e.message, true); }
   }
 
   $("recordDate").value = new Date().toISOString().slice(0,10);
-  initializeLogin();
 </script>
 </body>
 </html>
