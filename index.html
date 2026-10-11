@@ -1,59 +1,241 @@
 <!DOCTYPE html>
-<html><head><base target="_top"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kirehe Health Data</title>
-<style>
-:root{--navy:#12335b;--blue:#1769aa;--teal:#087f8c;--bg:#f3f6fb;--text:#1c2b3a;--muted:#6b7b8d;--border:#dce5ee;--red:#c0392b;--green:#17834a}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,var(--navy),var(--teal))}
-.card{background:white;border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 8px 24px #12335b0a}.login-card{width:100%;max-width:430px;padding:30px;border-radius:20px}.logo{text-align:center;font-size:38px}h1{font-size:21px;text-align:center;line-height:1.4}h2{margin:0 0 6px;font-size:23px}h3{margin:0 0 15px;font-size:16px}.muted,.note{color:var(--muted);font-size:12px;line-height:1.6}.subtitle{text-align:center;color:var(--muted);font-size:13px}
-label{display:block;font-size:13px;font-weight:bold;margin:13px 0 6px}input,select,textarea{width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:white;color:var(--text)}textarea{min-height:90px}
-.btn{border:0;border-radius:8px;background:var(--blue);color:white;font-weight:bold;padding:11px 14px}.btn.secondary{background:#e9eff6;color:var(--navy)}.btn.danger{background:var(--red)}.btn.full{width:100%;margin-top:18px}.btn.small{padding:7px 10px;font-size:12px}.error{color:var(--red);font-size:13px;white-space:pre-wrap;margin-top:10px}.success{color:var(--green);font-size:13px}
-.topbar{background:var(--navy);color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-weight:bold}.brand small{display:block;font-size:11px;color:#d0dfed;font-weight:normal;margin-top:3px}.userarea{display:flex;align-items:center;gap:10px}.shell{display:flex;min-height:calc(100vh - 60px)}aside{width:220px;background:white;border-right:1px solid var(--border);padding:12px;flex-shrink:0}.nav{display:block;width:100%;text-align:left;border:0;background:white;padding:12px;border-radius:8px;margin:3px 0;font-weight:bold;color:var(--text)}.nav.active,.nav:hover{background:#e8f1fb;color:var(--blue)}main{padding:22px;min-width:0;flex:1}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:17px}.stat small{color:var(--muted)}.num{font-size:27px;font-weight:bold;margin-top:8px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}th{background:#f5f8fc;white-space:nowrap}.empty{padding:20px;text-align:center;color:var(--muted)}.message{padding:12px 0;border-bottom:1px solid var(--border)}@media(max-width:850px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.shell{display:block}aside{width:100%;display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--border)}.nav{white-space:nowrap;width:auto}.grid2{grid-template-columns:1fr}main{padding:12px}}@media(max-width:500px){.topbar{padding:12px}.stats{gap:8px}.stat{padding:12px}.num{font-size:22px}.login-card{padding:22px}}
+<html lang="rw">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KIREHE HEALTH CENTERS DATA MANAGEMENT SYSTEM</title>
+  <style>
+    :root{--navy:#12304a;--blue:#1769aa;--teal:#087f8c;--bg:#f3f7fb;--card:#fff;--text:#1c2938;--muted:#627386;--border:#dbe5ee;--red:#b42318;--green:#16794b}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}
+    .topbar{background:var(--navy);color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.3px}.brand small{display:block;font-weight:400;font-size:11px;opacity:.8;margin-top:4px}.right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .lang{border:1px solid #ffffff66;background:#ffffff12;color:#fff;border-radius:8px;padding:8px;font-weight:700;transition:background .2s,color .2s}.lang option{background:#fff;color:#1c2938}.lang.lang-rw{background:#fef3c7;color:#92400e;border-color:#f59e0b}.lang.lang-en{background:#dbeafe;color:#1d4ed8;border-color:#60a5fa}.lang.lang-fr{background:#f3e8ff;color:#7e22ce;border-color:#c084fc}.user-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}.user-card{position:relative;padding:18px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 5px 18px #17324d0a;overflow:hidden}.user-card:before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:#64748b}.user-card.role-admin:before{background:#7c3aed}.user-card.role-manager:before{background:#0f766e}.user-card.role-viewer:before{background:#2563eb}.user-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:13px}.user-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eaf1f6;color:var(--navy);font-weight:800;font-size:17px}.user-card h4{margin:2px 0 4px;font-size:16px;overflow-wrap:anywhere}.user-card .username{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.user-meta{display:grid;gap:8px;margin:12px 0}.user-meta-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;border-bottom:1px solid #edf1f5;padding-bottom:7px}.user-meta-row span:first-child{color:var(--muted)}.role-chip{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;background:#eef2ff;color:#4338ca}.role-chip.role-admin{background:#ede9fe;color:#6d28d9}.role-chip.role-manager{background:#ccfbf1;color:#115e59}.role-chip.role-viewer{background:#dbeafe;color:#1d4ed8}.user-card .card-actions{margin-top:12px}.shell{max-width:1250px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:230px 1fr;gap:18px}.sidebar,.panel,.card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 5px 18px #17324d0a}.sidebar{padding:12px;height:max-content}.nav{display:block;width:100%;text-align:left;padding:12px;border:0;border-radius:8px;background:transparent;color:var(--text);margin:3px 0}.nav.active,.nav:hover{background:#e8f2fa;color:var(--blue);font-weight:700}.content{min-width:0}.panel{padding:20px;margin-bottom:16px}.panel h2,.panel h3{margin-top:0;color:var(--navy)}.muted{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{padding:18px;background:#fff;border:1px solid var(--border);border-radius:12px}.stat small{color:var(--muted)}.num{font-size:28px;font-weight:800;color:var(--blue);margin-top:8px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{margin-bottom:13px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #cbd7e2;border-radius:8px;background:#fff}.field textarea{min-height:100px;resize:vertical}.btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:11px 15px;font-weight:700}.btn.secondary{background:#eaf1f6;color:var(--navy)}.btn.danger{background:var(--red)}.btn:disabled{opacity:.6;cursor:not-allowed}.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--border);vertical-align:top}th{background:#f5f8fb;color:var(--navy)}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#e5f5eb;color:var(--green);font-size:11px;font-weight:700}.error{color:var(--red);font-size:13px;margin-top:10px}.success{color:var(--green);font-size:13px;margin-top:10px}.hidden{display:none!important}.login-wrap{max-width:600px;margin:38px auto;padding:16px}.selected-workspace{padding:12px 14px;border:1px solid #b8d8e8;border-radius:9px;background:#eaf7fb;color:#075985;font-weight:800;letter-spacing:.3px}.login-card{padding:26px}.logo{font-size:42px}.login-card h1{font-size:23px;color:var(--navy);line-height:1.35}.note{background:#fff8e6;border:1px solid #f0d99b;border-radius:8px;padding:11px;color:#70551a;font-size:13px;margin-top:14px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+    /* Workspace selection screen inspired by the supplied design */
+    body{background:#fff;min-height:100vh;border-top:3px solid #087f8c}
+    .topbar{display:none}
+    body:not(.show-login):not(.show-app) .footer{display:none}
+    .workspace-wrap{max-width:1250px;margin:0 auto;padding:38px 22px 24px}
+    .workspace-heading{text-align:center;margin:0 auto 26px;max-width:600px}
+    .workspace-logo{font-size:36px;line-height:1.2;margin-bottom:15px}
+    .workspace-heading h1{font-size:22px;line-height:1.35;margin:0 0 12px;color:#12304a;font-weight:800}
+    .workspace-heading p{font-size:13px;color:#627386;margin:0}
+    .workspace-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .workspace-card{min-height:220px;text-align:left;padding:22px;background:linear-gradient(145deg,#fff,#f8fbfe);border:1px solid #d8e4ef;border-radius:17px;box-shadow:0 5px 18px #17324d0a;display:flex;flex-direction:column;align-items:flex-start;color:#12304a;transition:transform .18s,box-shadow .18s,border-color .18s}
+    .workspace-card:hover{transform:translateY(-3px);box-shadow:0 10px 25px #17324d14;border-color:#9bbbd6}
+    .workspace-icon{font-size:29px;margin:2px 0 12px}
+    .workspace-card h2{font-size:16px;margin:0 0 12px;font-weight:800;color:#12304a}
+    .workspace-card p{font-size:13px;line-height:1.6;color:#627386;margin:0 0 20px}
+    .workspace-link{font-size:12px;color:#0563b5;font-weight:700;margin-top:auto}
+    #loginView{display:none}
+    body.show-login .topbar{display:flex}
+    body.show-login #workspaceView{display:none}
+    body.show-login #loginView{display:block}
+    body.show-login .footer{display:block}
+    body.show-login #appView{display:none}
+    body.show-app .topbar{display:flex}
+    body.show-app #workspaceView,body.show-app #loginView{display:none}
+    body.show-app #appView{display:block}
+    @media(max-width:780px){.workspace-wrap{padding:30px 16px 20px}.workspace-cards{grid-template-columns:1fr}.workspace-card{min-height:180px}.workspace-heading h1{font-size:20px}}
+    @media(max-width:780px){.shell{grid-template-columns:1fr}.sidebar{display:flex;overflow:auto;gap:5px}.nav{white-space:nowrap;width:auto}.stats{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.panel{padding:15px}.topbar{padding:14px}}
+  </style>
+</head>
+<body>
+  <main id="workspaceView" class="workspace-wrap">
+    <div class="workspace-heading">
+      <div class="workspace-logo">🏥</div>
+      <h1>KIREHE HEALTH CENTERS<br>DATA MANAGEMENT SYSTEM</h1>
+      <p>Hitamo igice ushaka kwinjiramo · Choose your workspace</p>
+    </div>
+    <div class="workspace-cards">
+      <button type="button" class="workspace-card" onclick="chooseWorkspace('DATA MANAGER')">
+        <span class="workspace-icon">📊</span><h2>DATA MANAGER</h2>
+        <p>Andika, ohereza kandi ucunge amakuru y’ikigo cyawe.</p><span class="workspace-link">Enter workspace →</span>
+      </button>
+      <button type="button" class="workspace-card" onclick="chooseWorkspace('ADMIN')">
+        <span class="workspace-icon">🛡️</span><h2>ADMIN</h2>
+        <p>Genzura abakoresha, ibigo nderabuzima n’umutekano wa system.</p><span class="workspace-link">Admin console →</span>
+      </button>
+      <button type="button" class="workspace-card" onclick="chooseWorkspace('VIEWER')">
+        <span class="workspace-icon">👁️</span><h2>VIEWER</h2>
+        <p>Reba amakuru wemerewe kubona utayahindura.</p><span class="workspace-link">View reports →</span>
+      </button>
+    </div>
+  </main>
+  <header class="topbar">
+    <div class="brand">🏥 KIREHE HEALTH CENTERS<small>DATA MANAGEMENT SYSTEM</small></div>
+    <div class="right">
+      <select id="language" class="lang" aria-label="Language">
+        <option value="rw">🇷🇼 Ikinyarwanda</option><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option>
+      </select>
+      <span id="headerUser" class="hidden"></span>
+      <button id="logoutBtn" class="btn secondary hidden" onclick="signOut()" data-i18n="logout">Sohoka</button>
+    </div>
+  </header>
 
-.role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:28px 0 18px}
-.role-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;text-align:left;border:1px solid var(--border);border-radius:16px;padding:22px;background:linear-gradient(160deg,#fff,#f7fbff);color:var(--text);min-height:220px;box-shadow:0 8px 22px #12335b0a;transition:transform .18s,box-shadow .18s,border-color .18s}
-.role-card:hover{transform:translateY(-3px);border-color:#7ab6df;box-shadow:0 14px 28px #12335b16}
-.role-card strong{font-size:16px;color:var(--navy);letter-spacing:.3px}.role-card span:not(.role-icon){font-size:13px;line-height:1.6;color:var(--muted)}.role-icon{font-size:32px}.role-card em{font-style:normal;color:var(--blue);font-weight:bold;font-size:12px;margin-top:auto}
-.login-panel{border:1px solid var(--border);border-radius:14px;background:#f8fbff;padding:22px;margin:18px 0}
-.login-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.login-panel h2{margin:5px 0}.eyebrow{font-size:10px;font-weight:bold;letter-spacing:1.5px;color:var(--teal)}
-@media(max-width:700px){.role-grid{grid-template-columns:1fr}.role-card{min-height:0}.login-card{padding:20px!important}.login-panel{padding:15px}}
-</style></head><body>
-<section id="loginPage" class="login-page"><div class="card login-card" style="max-width:920px">
-<div class="logo">🏥</div><h1>KIREHE HEALTH CENTERS<br>DATA MANAGEMENT SYSTEM</h1><p class="subtitle">Hitamo igice ushaka kwinjiramo · Choose your workspace</p>
-<div class="role-grid" id="rolePicker">
-<button type="button" class="role-card" onclick="chooseRole('DATA MANAGER')"><span class="role-icon">📊</span><strong>DATA MANAGER</strong><span>Andika, ohereza kandi ucunge amakuru y'ikigo cyawe.</span><em>Enter workspace →</em></button>
-<button type="button" class="role-card" onclick="chooseRole('ADMIN')"><span class="role-icon">🛡️</span><strong>ADMIN</strong><span>Genzura abakoresha, ibigo nderabuzima n'umutekano wa system.</span><em>Admin console →</em></button>
-<button type="button" class="role-card" onclick="chooseRole('VIEWER')"><span class="role-icon">👁️</span><strong>VIEWER</strong><span>Reba amakuru wemerewe kubona utayahinduye.</span><em>View reports →</em></button>
-</div>
-<div id="loginPanel" class="login-panel hidden"><div class="login-panel-head"><div><span class="eyebrow">SECURE SIGN IN</span><h2 id="selectedRoleTitle">Sign in</h2><p class="muted">Koresha konti yawe yemewe kugira ngo ukomeze.</p></div><button class="btn secondary" type="button" onclick="backToRoles()">← Hindura igice</button></div>
-<form id="loginForm"><label>Username</label><input id="username" autocomplete="username" required><label>Password</label><input id="password" type="password" autocomplete="current-password" required><input type="hidden" id="role" value=""><button class="btn full" id="loginBtn">Sign In Securely</button><div id="loginError" class="error"></div></form></div>
-<p class="note">🔒 Access is restricted to authorized users. Ntushyiremo amazina y'abarwayi cyangwa nimero zibamenyekanisha mu bisobanuro rusange.</p><div id="setupNotice" class="note"></div></div></section>
-<section id="appPage" class="hidden"><header class="topbar"><div class="brand">🏥 KIREHE HEALTH CENTERS<small>DATA MANAGEMENT SYSTEM</small></div><div class="userarea"><span id="userSummary"></span><button class="btn secondary small" onclick="signOut()">Logout</button></div></header>
-<div class="shell"><aside><button class="nav active" data-page="dashboard" onclick="openPage('dashboard',this)">📊 Dashboard</button><button class="nav" data-page="records" onclick="openPage('records',this)">📋 Health Records</button><button class="nav" data-page="messages" onclick="openPage('messages',this)">✉ Messages</button><button class="nav" onclick="openAdmin()">⚙ Admin Console</button></aside><main id="content"><div class="card">Loading...</div></main></div></section>
+  <main id="loginView" class="login-wrap">
+    <section class="card login-card">
+      <div class="logo">🔐</div>
+      <h1 data-i18n="welcome">KIREHE HEALTH CENTERS DATA MANAGEMENT SYSTEM</h1>
+      <p class="muted" data-i18n="loginSubtitle">Injira ukoresheje konti wahawe na Admin.</p>
+      <form id="loginForm">
+        <div class="field"><label for="username" data-i18n="username">Username</label><input id="username" autocomplete="username" required></div>
+        <div class="field"><label for="password" data-i18n="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div>
+        <div class="field"><label data-i18n="role">Workspace wahisemo</label><div id="selectedWorkspace" class="selected-workspace">DATA MANAGER</div><input id="role" type="hidden" value="DATA MANAGER"></div>
+        <button id="loginBtn" class="btn" type="submit" data-i18n="login">Injira</button>
+        <div id="loginError" class="error" role="alert"></div>
+      </form>
+      <div id="setupNotice" class="note hidden"></div>
+    </section>
+  </main>
+
+  <section id="appView" class="hidden">
+    <div class="shell">
+      <aside class="sidebar">
+        <button class="nav active" data-page="dashboard" onclick="openPage('dashboard',this)" data-i18n="dashboard">Dashboard</button>
+        <button class="nav" data-page="records" onclick="openPage('records',this)" data-i18n="records">Amakuru / Records</button>
+        <button class="nav" data-page="centers" onclick="openPage('centers',this)" data-i18n="centers">Ibigo nderabuzima</button>
+        <button class="nav admin-only hidden" data-page="users" onclick="openPage('users',this)" data-i18n="users">Abakoresha</button>
+        <button class="nav admin-only hidden" data-page="audit" onclick="openPage('audit',this)" data-i18n="audit">Audit Log</button>
+        <button class="nav" data-page="password" onclick="openPage('password',this)" data-i18n="changePassword">Hindura password</button>
+      </aside>
+      <main id="content" class="content"><div class="panel">Loading...</div></main>
+    </div>
+  </section>
+  <div class="footer">KIREHE HEALTH CENTERS DATA MANAGEMENT SYSTEM · Secure access for authorized users</div>
+
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxaMX56mfPY_SKtY0Im9R1gfqzstE_VcnPejlEdYJMsVYCmSEV5hMFb3Ib98YkPYEzl/exec";
-let TOKEN="",CURRENT_USER=null,CENTERS=[];
+const I18N = {
+ rw:{
+  welcome:'KIREHE HEALTH CENTERS DATA MANAGEMENT SYSTEM',loginSubtitle:'Injira ukoresheje konti wahawe na Admin.',username:'Username',password:'Password',role:'Uruhare',login:'Injira',logout:'Sohoka',dashboard:'Dashboard',records:'Amakuru / Records',centers:'Ibigo nderabuzima',users:'Abakoresha',audit:'Audit Log',changePassword:'Hindura password',hello:'Murakaza neza',activeCenters:'Ibigo bikora',totalRecords:'Amakuru yose',activeUsers:'Abakoresha bakora',recentRecords:'Amakuru aheruka',date:'Itariki',category:'Icyiciro',center:'Ikigo nderabuzima',description:'Ibisobanuro',createdBy:'Byakozwe na',createdAt:'Igihe',actions:'Ibikorwa',noRecords:'Nta makuru araboneka.',addRecord:'Ongeramo amakuru',save:'Bika',recordSaved:'Amakuru yabitswe neza.',centerName:'Izina ry’ikigo',district:'Akarere',sector:'Umurenge',phone:'Telefone',addCenter:'Ongeramo ikigo',centerSaved:'Ikigo cyabitswe neza.',manageUsers:'Gucunga abakoresha',fullName:'Amazina yose',email:'Email',newUser:'Ongeramo umukoresha',createUser:'Kora konti',userCreated:'Konti yakozwe neza.',healthCenter:'Ikigo umukoresha akoreramo',status:'Imimerere',active:'ACTIVE',inactive:'INACTIVE',deactivate:'Hagarika',activate:'Fungura',timestamp:'Itariki n’isaha',action:'Igikorwa',details:'Ibisobanuro',oldPassword:'Password ya kera',newPassword:'Password nshya',updatePassword:'Hindura password',passwordChanged:'Password yahinduwe.',required:'Uzuza ibisabwa byose.',loading:'Birimo gufunguka...',retry:'Ongera ugerageze',onlyAdmin:'Iki gice kigenewe Admin.',selectCenter:'Hitamo ikigo',noCenters:'Banza wongereho ikigo nderabuzima.',welcomeUser:'Uwinjiye',readOnly:'Ushobora kureba amakuru gusa.',recordDate:'Itariki ya raporo',chooseRole:'Hitamo uruhare rwa konti yawe.'
+ },
+ en:{
+  welcome:'KIREHE HEALTH CENTERS DATA MANAGEMENT SYSTEM',loginSubtitle:'Sign in using an account provided by an administrator.',username:'Username',password:'Password',role:'Role',login:'Sign in',logout:'Log out',dashboard:'Dashboard',records:'Health records',centers:'Health centers',users:'Users',audit:'Audit log',changePassword:'Change password',hello:'Welcome',activeCenters:'Active centers',totalRecords:'Total records',activeUsers:'Active users',recentRecords:'Recent records',date:'Date',category:'Category',center:'Health center',description:'Description',createdBy:'Created by',createdAt:'Created at',actions:'Actions',noRecords:'No records found.',addRecord:'Add record',save:'Save',recordSaved:'Record saved successfully.',centerName:'Center name',district:'District',sector:'Sector',phone:'Phone',addCenter:'Add center',centerSaved:'Center saved successfully.',manageUsers:'Manage users',fullName:'Full name',email:'Email',newUser:'Create user',createUser:'Create account',userCreated:'User created successfully.',healthCenter:'Assigned health center',status:'Status',active:'ACTIVE',inactive:'INACTIVE',deactivate:'Deactivate',activate:'Activate',timestamp:'Timestamp',action:'Action',details:'Details',oldPassword:'Current password',newPassword:'New password',updatePassword:'Update password',passwordChanged:'Password changed.',required:'Please complete all required fields.',loading:'Loading...',retry:'Retry',onlyAdmin:'This section is for Admins only.',selectCenter:'Select center',noCenters:'Add a health center first.',welcomeUser:'Signed in',readOnly:'You have read-only access.',recordDate:'Report date',chooseRole:'Choose the role assigned to your account.'
+ },
+ fr:{
+  welcome:'SYSTÈME DE GESTION DES CENTRES DE SANTÉ DE KIREHE',loginSubtitle:'Connectez-vous avec un compte fourni par un administrateur.',username:'Nom d’utilisateur',password:'Mot de passe',role:'Rôle',login:'Connexion',logout:'Déconnexion',dashboard:'Tableau de bord',records:'Dossiers de santé',centers:'Centres de santé',users:'Utilisateurs',audit:'Journal d’audit',changePassword:'Changer le mot de passe',hello:'Bienvenue',activeCenters:'Centres actifs',totalRecords:'Total des dossiers',activeUsers:'Utilisateurs actifs',recentRecords:'Dossiers récents',date:'Date',category:'Catégorie',center:'Centre de santé',description:'Description',createdBy:'Créé par',createdAt:'Créé le',actions:'Actions',noRecords:'Aucun dossier trouvé.',addRecord:'Ajouter un dossier',save:'Enregistrer',recordSaved:'Dossier enregistré.',centerName:'Nom du centre',district:'District',sector:'Secteur',phone:'Téléphone',addCenter:'Ajouter un centre',centerSaved:'Centre enregistré.',manageUsers:'Gérer les utilisateurs',fullName:'Nom complet',email:'E-mail',newUser:'Ajouter un utilisateur',createUser:'Créer le compte',userCreated:'Utilisateur créé.',healthCenter:'Centre de santé attribué',status:'Statut',active:'ACTIF',inactive:'INACTIF',deactivate:'Désactiver',activate:'Activer',timestamp:'Date et heure',action:'Action',details:'Détails',oldPassword:'Ancien mot de passe',newPassword:'Nouveau mot de passe',updatePassword:'Mettre à jour',passwordChanged:'Mot de passe modifié.',required:'Veuillez remplir les champs obligatoires.',loading:'Chargement...',retry:'Réessayer',onlyAdmin:'Cette section est réservée à l’administrateur.',selectCenter:'Choisir un centre',noCenters:'Ajoutez d’abord un centre de santé.',welcomeUser:'Connecté',readOnly:'Accès en lecture seule.',recordDate:'Date du rapport',chooseRole:'Choisissez le rôle de votre compte.'
+ }
+};
+let LANG='rw', TOKEN='', ME=null, CENTERS=[];
 const $=id=>document.getElementById(id);
-const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function callServer(method,...args){return new Promise((resolve,reject)=>{if(typeof google==="undefined"||!google.script||!google.script.run){reject(new Error("Fungura Index muri Google Apps Script Web App ya https://script.google.com/macros/s/AKfycbxaMX56mfPY_SKtY0Im9R1gfqzstE_VcnPejlEdYJMsVYCmSEV5hMFb3Ib98YkPYEzl/exec ; ntufungure HTML muri Vercel cyangwa muri mudasobwa."));return;}const runner=google.script.run.withSuccessHandler(resolve).withFailureHandler(e=>reject(new Error(e&&e.message?e.message:String(e))));if(typeof runner[method]!=="function"){reject(new Error("Server function ntibonetse: "+method));return;}runner[method](...args);});}
-async function init(){if(typeof google==="undefined"||!google.script||!google.script.run){$("setupNotice").textContent="ERROR: Fungura iyi Web App: https://script.google.com/macros/s/AKfycbxaMX56mfPY_SKtY0Im9R1gfqzstE_VcnPejlEdYJMsVYCmSEV5hMFb3Ib98YkPYEzl/exec .";return;}try{const c=await callServer("getLoginConfig");$("setupNotice").textContent=c.needsFirstAdmin?"Nta Admin uraboneka. Owner agomba gukoresha setupSystem() na createFirstAdminNow() muri Apps Script.":"System ihujwe na backend."; }catch(e){$("setupNotice").textContent="Backend error: "+e.message;}}
-let SELECTED_ROLE="";
-function chooseRole(role){
- SELECTED_ROLE=role;$("role").value=role;$("rolePicker").classList.add("hidden");$("loginPanel").classList.remove("hidden");
- const labels={"DATA MANAGER":"Data Manager Sign In","ADMIN":"Administrator Sign In","VIEWER":"Viewer Sign In"};
- $("selectedRoleTitle").textContent=labels[role]||"Sign in";$("loginError").textContent="";
- $("username").value="";$("password").value="";$("username").focus();
+const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const t=k=>(I18N[LANG]&&I18N[LANG][k])||I18N.rw[k]||k;
+
+function callServer(method,...args){
+ return new Promise((resolve,reject)=>{
+  if(typeof google==='undefined'||!google.script||!google.script.run){reject(new Error('Fungura iyi sisitemu ukoresheje URL ya Google Apps Script Web App irangiza na /exec; ntufungure HTML muri mudasobwa cyangwa Vercel.'));return;}
+  const runner=google.script.run.withSuccessHandler(resolve).withFailureHandler(e=>reject(new Error(e&&e.message?e.message:String(e))));
+  if(typeof runner[method]!=='function'){reject(new Error('Server function ntibonetse: '+method));return;}
+  runner[method](...args);
+ });
 }
-function backToRoles(){SELECTED_ROLE="";$("role").value="";$("loginPanel").classList.add("hidden");$("rolePicker").classList.remove("hidden");$("loginError").textContent="";$("password").value="";}
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginError").textContent="";$("loginBtn").disabled=true;try{const r=await callServer("login",$("username").value.trim(),$("password").value,SELECTED_ROLE||$("role").value);TOKEN=r.token;CURRENT_USER=r.user;if((SELECTED_ROLE||$("role").value)==="ADMIN"){window.top.location.href=WEB_APP_URL+"?page=admin";return;}$("loginPage").classList.add("hidden");$("appPage").classList.remove("hidden");$("userSummary").innerHTML="<strong>"+esc(CURRENT_USER.fullName)+"</strong><br><small>"+esc(CURRENT_USER.role)+" · "+esc(CURRENT_USER.healthCenter)+"</small>";document.querySelector('[data-page="records"]').classList.toggle("hidden",CURRENT_USER.role==="VIEWER");await openPage("dashboard");}catch(e){$("loginError").textContent=e.message;}finally{$("loginBtn").disabled=false;}});
-async function signOut(){try{if(TOKEN)await callServer("logout",TOKEN);}catch(e){}TOKEN="";CURRENT_USER=null;$("appPage").classList.add("hidden");$("loginPage").classList.remove("hidden");$("password").value="";}
-function openAdmin(){if(CURRENT_USER.role!=="ADMIN"){alert("Admin account only.");return;}window.top.location.href=WEB_APP_URL+"?page=admin";}
-async function openPage(page,btn){if(!TOKEN||!CURRENT_USER)return;document.querySelectorAll(".nav[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("content").innerHTML='<div class="card">Loading...</div>';try{if(page==="dashboard")await renderDashboard();if(page==="records")await renderRecords();if(page==="messages")await renderMessages();}catch(e){$("content").innerHTML='<div class="card"><h3>Could not load</h3><p class="error">'+esc(e.message)+'</p><button class="btn" onclick="openPage(\''+page+'\')">Retry</button></div>';}}
-function head(title,sub){return '<div class="head"><div><h2>'+esc(title)+'</h2><div class="muted">'+esc(sub||"")+'</div></div></div>';}
-function tableRecords(rs){if(!rs.length)return '<div class="empty">No records found.</div>';return '<div class="tablewrap"><table><thead><tr><th>Date</th><th>Category</th><th>Health Center</th><th>Description</th><th>Created By</th></tr></thead><tbody>'+rs.map(r=>'<tr><td>'+esc(r.recordDate)+'</td><td>'+esc(r.category)+'</td><td>'+esc(r.healthCenter)+'</td><td>'+esc(r.description)+'</td><td>'+esc(r.createdBy)+'</td></tr>').join("")+'</tbody></table></div>';}
-async function renderDashboard(){const d=await callServer("getDashboard",TOKEN);$("content").innerHTML=head("Dashboard","System overview")+'<div class="stats"><div class="stat"><small>Active health centers</small><div class="num">'+d.totalCenters+'</div></div><div class="stat"><small>Health records</small><div class="num">'+d.totalHealthRecords+'</div></div><div class="stat"><small>Messages</small><div class="num">'+d.totalMessages+'</div></div>'+(CURRENT_USER.role==="ADMIN"?'<div class="stat"><small>Active users</small><div class="num">'+d.totalUsers+'</div></div>':'')+'</div><div class="card"><h3>Recent Health Records</h3>'+tableRecords(d.recentRecords||[])+'</div>';}
-async function renderRecords(){const rs=await callServer("listHealthRecords",TOKEN),canWrite=["ADMIN","DATA MANAGER"].includes(CURRENT_USER.role);let form="";if(canWrite){CENTERS=await callServer("listCenters",TOKEN);form='<div class="card"><h3>Add Health Record</h3><form id="recordForm"><div class="grid2"><div><label>Category</label><select name="category" required><option value="">Select category</option>'+["HMIS","OPD","Maternity","Immunization","HIV","Malaria","Family Planning","Nutrition","Other"].map(x=>'<option>'+x+'</option>').join("")+'</select></div><div><label>Record Date</label><input type="date" name="recordDate" required></div>'+(CURRENT_USER.role==="ADMIN"?'<div><label>Health Center</label><select name="healthCenter" required><option value="">Select center</option>'+CENTERS.filter(c=>c.Status==="ACTIVE").map(c=>'<option value="'+esc(c.CenterName)+'">'+esc(c.CenterName)+'</option>').join("")+'</select></div>':'')+'</div><label>Description / Data Summary (do not include patient names or ID numbers)</label><textarea name="description" maxlength="10000" required></textarea><button class="btn">Save Record</button> <span id="recordMsg" class="success"></span></form></div>';}
-$("content").innerHTML=head("Health Records","Submit and review facility-level information")+form+'<div class="card"><h3>Records History</h3>'+tableRecords(rs)+'</div>';if(canWrite)$("recordForm").addEventListener("submit",async e=>{e.preventDefault();try{const r=await callServer("saveHealthRecord",TOKEN,Object.fromEntries(new FormData(e.target).entries()));$("recordMsg").textContent=r.message;await renderRecords();}catch(err){$("recordMsg").textContent=err.message;}});}
-async function renderMessages(){const [ms,rec]=await Promise.all([callServer("listMessages",TOKEN),callServer("listMessageRecipients",TOKEN)]);$("content").innerHTML=head("Messages","Communicate with authorized users")+'<div class="card"><h3>Send Message</h3><form id="msgForm"><label>Recipient</label><select name="recipient" required><option value="">Select recipient</option>'+rec.map(r=>'<option value="'+esc(r.username)+'">'+esc(r.fullName)+' ('+esc(r.role)+')</option>').join("")+(CURRENT_USER.role==="ADMIN"?'<option value="ALL">ALL USERS</option>':"")+'</select><label>Message</label><textarea name="message" maxlength="5000" required></textarea><button class="btn">Send</button><span id="msgResult" class="success"></span></form></div><div class="card"><h3>Message History</h3>'+(ms.length?ms.map(m=>'<div class="message"><div class="muted">'+esc(m.createdAt)+' · '+esc(m.sender)+' → '+esc(m.recipient)+'</div><p>'+esc(m.message)+'</p></div>').join(""):'<div class="empty">No messages yet.</div>')+'</div>';$("msgForm").addEventListener("submit",async e=>{e.preventDefault();try{const r=await callServer("sendMessage",TOKEN,Object.fromEntries(new FormData(e.target).entries()));$("msgResult").textContent=r.message;await renderMessages();}catch(err){$("msgResult").textContent=err.message;}});}
-init();
-</script></body></html>
+function applyLanguage(){
+ document.documentElement.lang=LANG;
+ const languageSelect=$('language');languageSelect.classList.remove('lang-rw','lang-en','lang-fr');languageSelect.classList.add('lang-'+LANG);
+ document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t(key))el.textContent=t(key);});
+ if(ME)$('headerUser').textContent=ME.fullName+' · '+ME.role;
+}
+$('language').addEventListener('change',e=>{LANG=e.target.value;applyLanguage();if(TOKEN)openPage(currentPage);});
+let currentPage='dashboard';
+function chooseWorkspace(role){
+ document.body.classList.remove('show-app');document.body.classList.add('show-login');
+ $('role').value=role;$('selectedWorkspace').textContent=role;$('loginError').textContent='';$('username').focus();
+}
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('loginError').textContent='';$('loginBtn').disabled=true;
+ try{
+  const result=await callServer('login',$('username').value.trim(),$('password').value,$('role').value);
+  TOKEN=result.token;ME=result.user;document.body.classList.remove('show-login');document.body.classList.add('show-app');
+  $('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('headerUser').classList.remove('hidden');$('logoutBtn').classList.remove('hidden');
+  document.querySelectorAll('.admin-only').forEach(el=>el.classList.toggle('hidden',ME.role!=='ADMIN'));
+  $('password').value='';applyLanguage();await openPage('dashboard');
+ }catch(err){$('loginError').textContent=err.message;}
+ finally{$('loginBtn').disabled=false;}
+});
+async function signOut(){
+ try{if(TOKEN)await callServer('logout',TOKEN);}catch(e){}
+ TOKEN='';ME=null;document.body.classList.remove('show-app','show-login');$('appView').classList.add('hidden');$('headerUser').classList.add('hidden');$('logoutBtn').classList.add('hidden');$('loginView').classList.remove('hidden');$('loginForm').reset();$('loginError').textContent='';
+}
+async function openPage(page,button){
+ currentPage=page;
+ document.querySelectorAll('.nav[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
+ $('content').innerHTML='<div class="panel">'+esc(t('loading'))+'</div>';
+ try{
+  if(page==='dashboard')await renderDashboard();
+  else if(page==='records')await renderRecords();
+  else if(page==='centers')await renderCenters();
+  else if(page==='users')await renderUsers();
+  else if(page==='audit')await renderAudit();
+  else if(page==='password')renderPassword();
+ }catch(err){
+  $('content').innerHTML='<div class="panel"><h3>'+esc(err.message)+'</h3><button class="btn" onclick="openPage(\''+page+'\')">'+esc(t('retry'))+'</button></div>';
+ }
+}
+async function renderDashboard(){
+ const d=await callServer('getDashboard',TOKEN);
+ $('content').innerHTML='<div class="panel"><h2>'+esc(t('hello'))+', '+esc(ME.fullName)+'</h2><p class="muted">'+esc(ME.role)+' · '+(ME.role==='VIEWER'?esc(t('readOnly')):'Kirehe District')+'</p></div>'+
+ '<div class="stats"><div class="stat"><small>'+esc(t('activeCenters'))+'</small><div class="num">'+d.totalCenters+'</div></div><div class="stat"><small>'+esc(t('totalRecords'))+'</small><div class="num">'+d.totalRecords+'</div></div>'+(ME.role==='ADMIN'?'<div class="stat"><small>'+esc(t('activeUsers'))+'</small><div class="num">'+d.totalUsers+'</div></div>':'')+'</div>'+
+ '<div class="panel"><h3>'+esc(t('recentRecords'))+'</h3>'+recordTable(d.recentRecords)+'</div>';
+}
+function recordTable(rows){
+ if(!rows||!rows.length)return '<p class="muted">'+esc(t('noRecords'))+'</p>';
+ return '<div class="tablewrap"><table><thead><tr><th>'+esc(t('date'))+'</th><th>'+esc(t('category'))+'</th><th>'+esc(t('center'))+'</th><th>'+esc(t('description'))+'</th><th>'+esc(t('createdBy'))+'</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.recordDate)+'</td><td>'+esc(r.category)+'</td><td>'+esc(r.healthCenterName)+'</td><td>'+esc(r.description)+'</td><td>'+esc(r.createdBy)+'</td></tr>').join('')+'</tbody></table></div>';
+}
+async function renderRecords(){
+ const rows=await callServer('listHealthRecords',TOKEN);
+ const canAdd=['ADMIN','DATA MANAGER'].includes(ME.role);
+ CENTERS=await callServer('listHealthCenters',TOKEN);
+ let form='';
+ if(canAdd){
+  form='<div class="panel"><h3>'+esc(t('addRecord'))+'</h3><form id="recordForm"><div class="grid"><div class="field"><label>'+esc(t('recordDate'))+'</label><input name="recordDate" type="date" required></div><div class="field"><label>'+esc(t('category'))+'</label><select name="category" required><option value="">—</option><option>Monthly Report</option><option>Outpatient</option><option>Maternal Health</option><option>Immunization</option><option>Stock / Supplies</option><option>Other</option></select></div><div class="field"><label>'+esc(t('center'))+'</label><select name="healthCenterId" required>'+centerOptions(CENTERS)+'</select></div><div class="field"><label>'+esc(t('description'))+'</label><textarea name="description" required maxlength="5000"></textarea></div></div><button class="btn">'+esc(t('save'))+'</button><div id="recordResult" class="success"></div><div id="recordError" class="error"></div></form></div>';
+ }
+ $('content').innerHTML=form+'<div class="panel"><h2>'+esc(t('records'))+'</h2>'+recordTable(rows)+'</div>';
+ if(canAdd)$('recordForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget;const data=Object.fromEntries(new FormData(f).entries());$('recordError').textContent='';try{await callServer('saveHealthRecord',TOKEN,data);$('recordResult').textContent=t('recordSaved');f.reset();await renderRecords();}catch(err){$('recordError').textContent=err.message;}});
+}
+function centerOptions(centers){if(!centers.length)return '<option value="">'+esc(t('noCenters'))+'</option>';return '<option value="">'+esc(t('selectCenter'))+'</option>'+centers.map(c=>'<option value="'+esc(c.centerId)+'">'+esc(c.centerName)+'</option>').join('');}
+async function renderCenters(){
+ CENTERS=await callServer('listHealthCenters',TOKEN);
+ let form='';
+ if(ME.role==='ADMIN')form='<div class="panel"><h3>'+esc(t('addCenter'))+'</h3><form id="centerForm"><div class="grid"><div class="field"><label>'+esc(t('centerName'))+'</label><input name="centerName" required></div><div class="field"><label>'+esc(t('district'))+'</label><input name="district" value="Kirehe"></div><div class="field"><label>'+esc(t('sector'))+'</label><input name="sector"></div><div class="field"><label>'+esc(t('phone'))+'</label><input name="phone"></div></div><button class="btn">'+esc(t('save'))+'</button><div id="centerResult" class="success"></div><div id="centerError" class="error"></div></form></div>';
+ $('content').innerHTML=form+'<div class="panel"><h2>'+esc(t('centers'))+'</h2>'+(CENTERS.length?'<div class="tablewrap"><table><thead><tr><th>'+esc(t('centerName'))+'</th><th>'+esc(t('district'))+'</th><th>'+esc(t('sector'))+'</th><th>'+esc(t('phone'))+'</th></tr></thead><tbody>'+CENTERS.map(c=>'<tr><td>'+esc(c.centerName)+'</td><td>'+esc(c.district)+'</td><td>'+esc(c.sector)+'</td><td>'+esc(c.phone)+'</td></tr>').join('')+'</tbody></table></div>':'<p class="muted">'+esc(t('noCenters'))+'</p>')+'</div>';
+ if(ME.role==='ADMIN')$('centerForm').addEventListener('submit',async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget).entries());try{await callServer('saveHealthCenter',TOKEN,data);$('centerResult').textContent=t('centerSaved');await renderCenters();}catch(err){$('centerError').textContent=err.message;}});
+}
+async function renderUsers(){
+ if(ME.role!=='ADMIN')throw new Error(t('onlyAdmin'));
+ CENTERS=await callServer('listHealthCenters',TOKEN);
+ const users=await callServer('listUsers',TOKEN);
+ const centerName=id=>{const c=CENTERS.find(x=>x.centerId===id);return c?c.centerName:(id?'—':'—');};
+ const userCards=users.length?'<div class="user-cards">'+users.map(u=>{
+  const roleClass=u.role==='ADMIN'?'role-admin':(u.role==='DATA MANAGER'?'role-manager':'role-viewer');
+  const initial=esc((u.fullName||u.username||'?').trim().charAt(0).toUpperCase());
+  const statusClass=u.status==='ACTIVE'?'badge':'badge';
+  return '<article class="user-card '+roleClass+'"><div class="user-card-top"><div class="user-avatar">'+initial+'</div><div><h4>'+esc(u.fullName)+'</h4><div class="username">@'+esc(u.username)+'</div></div></div>'+
+   '<span class="role-chip '+roleClass+'">'+esc(u.role)+'</span><div class="user-meta">'+
+   '<div class="user-meta-row"><span>'+esc(t('email'))+'</span><strong>'+esc(u.email||'—')+'</strong></div>'+
+   '<div class="user-meta-row"><span>'+esc(t('healthCenter'))+'</span><strong>'+esc(centerName(u.healthCenterId))+'</strong></div>'+
+   '<div class="user-meta-row"><span>'+esc(t('status'))+'</span><span class="'+statusClass+'" style="background:'+(u.status==='ACTIVE'?'#e5f5eb':'#fee4e2')+';color:'+(u.status==='ACTIVE'?'#16794b':'#b42318')+'">'+esc(u.status)+'</span></div></div>'+
+   '<div class="card-actions">'+(u.userId===ME.userId?'<span class="muted">—</span>':'<button class="btn secondary" onclick="toggleUser(\''+esc(u.userId)+'\',\''+(u.status==='ACTIVE'?'INACTIVE':'ACTIVE')+'\')">'+esc(u.status==='ACTIVE'?t('deactivate'):t('activate'))+'</button>')+'</div></article>';
+ }).join('')+'</div>':'<p class="muted">'+esc(t('noRecords'))+'</p>';
+ $('content').innerHTML='<div class="panel"><h2>'+esc(t('manageUsers'))+'</h2><form id="userForm"><div class="grid"><div class="field"><label>'+esc(t('fullName'))+'</label><input name="fullName" required></div><div class="field"><label>'+esc(t('username'))+'</label><input name="username" required></div><div class="field"><label>'+esc(t('password'))+' (min. 10)</label><input name="password" type="password" minlength="10" required></div><div class="field"><label>'+esc(t('email'))+'</label><input name="email" type="email"></div><div class="field"><label>'+esc(t('role'))+'</label><select name="role"><option>DATA MANAGER</option><option>VIEWER</option><option>ADMIN</option></select></div><div class="field"><label>'+esc(t('healthCenter'))+'</label><select name="healthCenterId">'+centerOptions(CENTERS)+'</select></div></div><button class="btn">'+esc(t('createUser'))+'</button><div id="userResult" class="success"></div><div id="userError" class="error"></div></form></div>'+
+ '<div class="panel"><h3>'+esc(t('users'))+' ('+users.length+')</h3>'+userCards+'</div>';
+ $('userForm').addEventListener('submit',async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget).entries());try{await callServer('createUser',TOKEN,data);$('userResult').textContent=t('userCreated');await renderUsers();}catch(err){$('userError').textContent=err.message;}});
+}
+async function toggleUser(id,status){try{await callServer('setUserStatus',TOKEN,id,status);await renderUsers();}catch(e){alert(e.message);}}
+async function renderAudit(){
+ if(ME.role!=='ADMIN')throw new Error(t('onlyAdmin'));
+ const rows=await callServer('getAuditLog',TOKEN);
+ $('content').innerHTML='<div class="panel"><h2>'+esc(t('audit'))+'</h2><div class="tablewrap"><table><thead><tr><th>'+esc(t('timestamp'))+'</th><th>'+esc(t('username'))+'</th><th>'+esc(t('role'))+'</th><th>'+esc(t('action'))+'</th><th>'+esc(t('details'))+'</th><th>'+esc(t('status'))+'</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.timestamp)+'</td><td>'+esc(r.username)+'</td><td>'+esc(r.role)+'</td><td>'+esc(r.action)+'</td><td>'+esc(r.details)+'</td><td>'+esc(r.status)+'</td></tr>').join('')+'</tbody></table></div></div>';
+}
+function renderPassword(){
+ $('content').innerHTML='<div class="panel"><h2>'+esc(t('changePassword'))+'</h2><form id="passwordForm"><div class="field"><label>'+esc(t('oldPassword'))+'</label><input name="oldPassword" type="password" required></div><div class="field"><label>'+esc(t('newPassword'))+' (min. 10)</label><input name="newPassword" type="password" minlength="10" required></div><button class="btn">'+esc(t('updatePassword'))+'</button><div id="passwordResult" class="success"></div><div id="passwordError" class="error"></div></form></div>';
+ $('passwordForm').addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.currentTarget).entries());try{await callServer('changeMyPassword',TOKEN,d.oldPassword,d.newPassword);$('passwordResult').textContent=t('passwordChanged');e.currentTarget.reset();}catch(err){$('passwordError').textContent=err.message;}});
+}
+async function init(){
+ try{
+  const c=await callServer('getLoginConfig');
+  if(c.needsSetup||c.needsFirstAdmin){$('setupNotice').classList.remove('hidden');$('setupNotice').textContent='Admin setup iracyakenewe. Muri Apps Script, banza ukoreshe setupSystem(), uhindure BOOTSTRAP_ADMIN muri Code.gs, hanyuma ukoreshe createFirstAdminNow() rimwe gusa.';}
+ }catch(e){$('setupNotice').classList.remove('hidden');$('setupNotice').textContent=e.message;}
+}
+$('language').value=LANG;applyLanguage();init();
+</script>
+</body>
+</html>
